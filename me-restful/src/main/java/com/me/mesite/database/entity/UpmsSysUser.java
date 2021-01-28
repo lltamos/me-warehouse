@@ -1,18 +1,25 @@
-package com.me.mesite.database;
+package com.me.mesite.database.entity;
 
-import java.io.Serializable;
 import lombok.Data;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
 /**
  * upms_user
+ *
  * @author llt
  */
+@Entity(name="upms_sysuser")
 @Data
-public class UpmsUser implements Serializable {
+public class UpmsSysUser {
     /**
      * 编号
      */
-    private Integer userId;
+    @Id
+    @GeneratedValue
+    private Integer id;
 
     /**
      * 帐号
@@ -65,4 +72,5 @@ public class UpmsUser implements Serializable {
     private Long ctime;
 
     private static final long serialVersionUID = 1L;
+
 }

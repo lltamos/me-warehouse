@@ -16,8 +16,12 @@
 
 package com.me.mesite.common.aspect;
 
-import com.me.mesite.common.annotation.J2CacheEvit;
-import net.oschina.j2cache.CacheChannel;
+import cn.hutool.json.JSON;
+import cn.hutool.json.JSONUtil;
+import com.me.mesite.common.annotation.SysLog;
+import com.me.mesite.common.utils.HttpContextUtils;
+import com.me.mesite.common.utils.IPUtils;
+import com.sun.xml.bind.v2.TODO;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -26,38 +30,55 @@ import org.aspectj.lang.reflect.MethodSignature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
+import java.util.Date;
 
 /**
- * 如果手动创建缓存，请使用这个注解来删除缓存
+ * 系统日志，切面处理类
  *
- * @author xc 171998110@qq.com
- * @since   2018-06-29
+ * @author Mark lltamos@outlook.com
+ * @since 1.3.0 2017-03-08
  */
 @Aspect
 @Component
-public class J2CacheEvitAspect {
-	@Autowired
-	private CacheChannel cacheChannel;
-	
-	@Pointcut("@annotation(com.me.mesite.common.annotation.J2CacheEvit)")
-	public void J2CacheEvitPointCut() { 
+public class SysLogAspect {
+
+	@Pointcut("@annotation(com.me.mesite.common.annotation.SysLog)")
+	public void logPointCut() { 
 		
 	}
 
-	@Around("J2CacheEvitPointCut()")
+	@Around("logPointCut()")
 	public Object around(ProceedingJoinPoint point) throws Throwable {
-		// 执行方法
+		long beginTime = System.currentTimeMillis();
+		//执行方法
 		Object result = point.proceed();
-		J2CacheEvit(point);
+		//执行时长(毫秒)
+		long time = System.currentTimeMillis() - beginTime;
+
+		//保存日志
+		saveSysLog(point, time);
+
 		return result;
 	}
 
-	private void J2CacheEvit(ProceedingJoinPoint joinPoint) {
+	private void saveSysLog(ProceedingJoinPoint joinPoint, long time) {
 		MethodSignature signature = (MethodSignature) joinPoint.getSignature();
 		Method method = signature.getMethod();
+		SysLog syslog = method.getAnnotation(SysLog.class);
 
-		J2CacheEvit j2CacheEvit = method.getAnnotation(J2CacheEvit.class);
-		cacheChannel.clear(j2CacheEvit.value());
+		//todo 保存日志
+
+		//请求的方法名
+		String className = joinPoint.getTarget().getClass().getName();
+		String methodName = signature.getName();
+		//请求的参数
+		Object[] args = joinPoint.getArgs();
+		//获取request
+		HttpServletRequest request = HttpContextUtils.getHttpServletRequest();
+		//设置IP地址
+		//用户名
+		//保存系统日志
 	}
 }

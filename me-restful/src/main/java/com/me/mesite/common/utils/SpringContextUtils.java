@@ -16,7 +16,7 @@
 
 package com.me.mesite.common.utils;
 
-import com.freeter.common.config.White;
+import com.me.mesite.common.config.White;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
@@ -26,8 +26,8 @@ import org.springframework.stereotype.Component;
 /**
  * Spring Context 工具类
  * 
- * @author chenshun
- * @email sunlightcs@gmail.com
+ * @author lltamos
+ * @email lltamos@outlook.com
  * @date 2016年11月29日 下午11:45:51
  */
 @Component

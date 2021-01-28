@@ -36,8 +36,8 @@ import java.util.Map;
 /**
  * XSS过滤处理
  *
- * @author chenshun
- * @email sunlightcs@gmail.com
+ * @author lltamos
+ * @email lltamos@outlook.com
  * @date 2017-04-01 11:29
  */
 

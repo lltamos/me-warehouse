@@ -18,8 +18,8 @@ package com.me.mesite.common.validator.group;
 
 /**
  * 新增数据 Group
- * @author chenshun
- * @email sunlightcs@gmail.com
+ * @author lltamos
+ * @email lltamos@outlook.com
  * @date 2017-03-16 0:04
  */
 public interface AddGroup {

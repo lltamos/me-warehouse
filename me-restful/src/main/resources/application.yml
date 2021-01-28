@@ -25,11 +25,10 @@ spring:
       #spring.datasource.druid.poolPreparedStatements=true
       #缓存的PreparedStatement的最大数量，默认-1  不缓存，大于0时会自动开启PreparedStatement缓存，所以可以缺省上一句配置
       max-open-prepared-statements: 20
-
-###mybatis配置###
-mybatis:
-  mapper-locations: classpath:mapper/*.xml
-
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
 
 me:
   redis:

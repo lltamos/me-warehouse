@@ -14,22 +14,20 @@
  * the License.
  */
 
-package com.me.mesite.common.utils;
+package com.me.mesite.common.annotation;
 
-import java.util.HashMap;
-
+import java.lang.annotation.*;
 
 /**
- * Map工具类
+ * 系统日志注解
  *
  * @author Mark lltamos@outlook.com
- * @since 3.0.0
+ * @since 1.3.0 2017-03-08
  */
-public class MapUtils extends HashMap<String, Object> {
+@Target(ElementType.METHOD)
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+public @interface SysLog {
 
-    @Override
-    public MapUtils put(String key, Object value) {
-        super.put(key, value);
-        return this;
-    }
+	String value() default "";
 }
