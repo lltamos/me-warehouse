@@ -2,24 +2,21 @@ package com.me.mesite.database.entity;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
 
 /**
- * upms_log
+ * upms_user_permission
  * @author 
  */
-@Entity(name="upms_log")
+@Entity(name="upms_user_permission")
 @Data
 public class UpmsUserPermission implements Serializable {
     /**
      * 编号
      */
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
     /**
