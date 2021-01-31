@@ -1,4 +1,4 @@
-package com.me.mesite.controller.upms;
+package com.me.mesite.module.Idds.controller.upms;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;

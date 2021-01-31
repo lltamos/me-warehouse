@@ -6,8 +6,8 @@ spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://182.92.71.18:3306/me_warehouse?useUnicode=true&characterEncoding=utf8&useSSL=false
-    username: root
-    password: llt88458
+    username: ME_Warehouse
+    password: hcWFjG8kzZrJ65ny
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
       #初始连接数，默认0

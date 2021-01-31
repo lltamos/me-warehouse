@@ -1,4 +1,4 @@
-package com.me.mesite.service;
+package com.me.mesite.module.Idds.service;
 
 import com.me.mesite.database.entity.UpmsSysUser;
 import com.me.mesite.database.repository.UpmsSysUserRepository;
