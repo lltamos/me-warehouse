@@ -10,7 +10,6 @@ import java.io.Serializable;
 public class MeUser implements Serializable {
 
     private static final long serialVersionUID = 1L;
-
     /**
      * 用户ID
      */
@@ -18,6 +17,10 @@ public class MeUser implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    /**
+     * 用户uuid
+     */
+    private String uuid;
     /**
      * 用户邮箱
      */
@@ -61,11 +64,6 @@ public class MeUser implements Serializable {
     private String tags;
 
     /**
-     * 邮箱是否为已验证
-     */
-    private Integer emailVerified;
-
-    /**
      * 是否初始化设置的，未初始化的可以设置邮箱、昵称。
      */
     private Integer setup;
@@ -80,10 +78,6 @@ public class MeUser implements Serializable {
      */
     private Integer locked;
 
-    /**
-     * 帐号锁定期限
-     */
-    private Long lockDeadline;
 
     /**
      * 实名认证时间
@@ -106,19 +100,5 @@ public class MeUser implements Serializable {
      */
     private Long utime;
 
-    /**
-     * 邀请码
-     */
-    private String inviteCode;
-
-    /**
-     * 用户uuid
-     */
-    private String uuid;
-
-    /**
-     * 是否人脸注册过
-     */
-    private Integer faceRegistered;
 
 }
