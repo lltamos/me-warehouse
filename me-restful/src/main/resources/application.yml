@@ -28,7 +28,11 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update
+
     show-sql: true
+    open-in-view: true
+
+
 
 me:
   redis:

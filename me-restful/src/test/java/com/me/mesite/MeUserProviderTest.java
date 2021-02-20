@@ -3,8 +3,8 @@ package com.me.mesite;
 import cn.hutool.json.JSONUtil;
 import com.github.houbb.data.factory.core.util.DataUtil;
 import com.google.common.collect.Lists;
-import com.me.mesite.database.entity.MeUser;
-import com.me.mesite.database.repository.MeUserRepository;
+import com.me.mesite.infrastructure.gatawayimpl.database.dataobject.MeUser;
+import com.me.mesite.infrastructure.gatawayimpl.database.repository.MeUserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 

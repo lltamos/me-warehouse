@@ -1,4 +1,4 @@
-package com.me.mesite.database.entity;
+package com.me.mesite.infrastructure.gatawayimpl.database.dataobject;
 
 import lombok.Data;
 
@@ -6,12 +6,12 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 /**
- * upms_role_permission
+ * upms_user_organization
  * @author 
  */
-@Entity(name="upms_role_permission")
+@Entity(name="upms_user_organization")
 @Data
-public class UpmsRolePermission implements Serializable {
+public class UpmsUserOrganization implements Serializable {
     /**
      * 编号
      */

@@ -1,20 +1,17 @@
-package com.me.mesite.database.entity;
+package com.me.mesite.infrastructure.gatawayimpl.database.dataobject;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
 
 /**
- * upms_log
+ * upms_permission
  * @author 
  */
-@Entity(name="upms_log")
+@Entity(name="upms_permission")
 @Data
-public class UpmsLog implements Serializable {
+public class UpmsPermission implements Serializable {
     /**
      * 编号
      */

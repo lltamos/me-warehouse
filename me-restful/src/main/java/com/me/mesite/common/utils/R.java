@@ -61,6 +61,10 @@ public class R extends HashMap<String, Object> {
         return ok("success", data);
     }
 
+    public static R okStr() {
+        return new R();
+    }
+
     private static R ok(String msg, Object data) {
         return ok(HttpStatus.SC_OK, msg, data);
     }
