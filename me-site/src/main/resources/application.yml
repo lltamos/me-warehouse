@@ -1,0 +1,47 @@
+spring:
+  # 环境 dev|test|prod
+  profiles:
+    active: dev
+  #数据源配置
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://182.92.71.18:3306/me_warehouse?useUnicode=true&characterEncoding=utf8&useSSL=false
+    username: ME_Warehouse
+    password: hcWFjG8kzZrJ65ny
+    type: com.alibaba.druid.pool.DruidDataSource
+    druid:
+      #初始连接数，默认0
+      initial-size: 0
+      #最小空闲连接数
+      min-idle: 5
+      #最大活跃连接数，默认8
+      max-active: 8
+      #以上3个配置项，设置为0表示无限
+
+      #获取连接的最大等待时间（池中无空闲连接时最多等待多少ms），默认-1  一直等待，此处设置为30000ms，即30s
+      max-wait: 30000
+
+      #是否缓存PreparedStatement，默认false
+      #spring.datasource.druid.poolPreparedStatements=true
+      #缓存的PreparedStatement的最大数量，默认-1  不缓存，大于0时会自动开启PreparedStatement缓存，所以可以缺省上一句配置
+      max-open-prepared-statements: 20
+  jpa:
+    hibernate:
+      ddl-auto: update
+
+    show-sql: true
+    open-in-view: true
+
+
+
+me:
+  redis:
+    open: false  # 是否开启redis缓存  true开启   false关闭
+  shiro:
+    redis: false # true表示shiro session存到redis里，需要开启redis，才会生效【分布式场景】
+  jwt:
+    # 加密秘钥
+    secret: f4e2e52034348f86b67cde581c0f9eb5[freeter]
+    # token有效时长，7天，单位秒
+    expire: 604800
+    header: token
