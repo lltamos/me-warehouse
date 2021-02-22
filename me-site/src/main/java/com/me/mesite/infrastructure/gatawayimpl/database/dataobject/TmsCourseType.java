@@ -18,21 +18,21 @@ public class TmsCourseType {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
     /**
-     * 学院
+     * 项目分类Id
      */
-    private Integer kind;
+    private Integer tmsKindTypeId;
     /**
      * 课程类型：1专业课，2公共课
      */
-    private Integer kc_type;
+    private Integer kcType;
     /**
      * 阶段：1本科，0专科
      */
-    private Integer kc_stage;
+    private Integer kcStage;
     /**
      * 课程名字
      */
-    private Integer kc_name;
+    private Integer kcName;
     /**
      * 课程代码
      */

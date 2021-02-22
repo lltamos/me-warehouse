@@ -8,6 +8,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.Date;
 
+/**
+ * 试题库
+ */
 @Entity(name = "tms_question_reps")
 @Data
 public class TmsQuestionReps {
@@ -20,9 +23,9 @@ public class TmsQuestionReps {
     /**
      * tms_kind_type 主键ID
      */
-    private Integer kindId;
+    private Integer tmsKindTypeId;
 
-    private String kindStr;
+    private String tmsKindTypeStr;
 
     private Integer locked;
 

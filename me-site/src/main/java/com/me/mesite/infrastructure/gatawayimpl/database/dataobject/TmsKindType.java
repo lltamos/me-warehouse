@@ -24,20 +24,20 @@ public class TmsKindType {
     /**
      * 类型名称
      */
-    private Integer p_name;
+    private Integer name;
 
     /**
      * 父id
      */
-    private Integer p_pid;
+    private Integer pid;
     /**
      * 排序
      */
-    private Integer p_sort;
+    private Integer sort;
 
     private Integer locked;
 
-    private String p_remark;
+    private String remark;
 
     private Date ctime;
 
