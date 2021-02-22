@@ -4,10 +4,11 @@ import lombok.Data;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
 
-@Entity
+@Entity(name="upms_c_user")
 @Data
-public class MeUser implements Serializable {
+public class UpmsCUser implements Serializable {
 
     private static final long serialVersionUID = 1L;
     /**
@@ -93,12 +94,12 @@ public class MeUser implements Serializable {
     /**
      * 注册时间
      */
-    private Long ctime;
+    private Date ctime;
 
     /**
      * 最后更新时间
      */
-    private Long utime;
+    private Date utime;
 
 
 }

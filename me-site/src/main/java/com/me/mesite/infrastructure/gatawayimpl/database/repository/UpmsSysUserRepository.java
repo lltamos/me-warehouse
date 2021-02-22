@@ -1,8 +1,8 @@
 package com.me.mesite.infrastructure.gatawayimpl.database.repository;
 
-import com.me.mesite.infrastructure.gatawayimpl.database.dataobject.UpmsSysUser;
+import com.me.mesite.infrastructure.gatawayimpl.database.dataobject.UpmsSUser;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UpmsSysUserRepository extends JpaRepository<UpmsSysUser, Long> {
+public interface UpmsSysUserRepository extends JpaRepository<UpmsSUser, Long> {
 
 }

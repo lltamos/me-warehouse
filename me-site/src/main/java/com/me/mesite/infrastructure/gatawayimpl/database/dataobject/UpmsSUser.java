@@ -6,15 +6,16 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.util.Date;
 
 /**
- * upms_user
+ *
  *
  * @author llt
  */
-@Entity(name="upms_sysuser")
+@Entity(name="upms_s_user")
 @Data
-public class UpmsSysUser {
+public class UpmsSUser {
     /**
      * 编号
      */
@@ -70,7 +71,9 @@ public class UpmsSysUser {
     /**
      * 创建时间
      */
-    private Long ctime;
+    private Date ctime;
+
+    private Date utime;
 
     private static final long serialVersionUID = 1L;
 

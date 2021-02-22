@@ -1,8 +1,7 @@
 package com.me.mesite.module.Idds.web.upms;
 
 import com.me.mesite.common.utils.R;
-import com.me.mesite.common.validator.Assert;
-import com.me.mesite.infrastructure.gatawayimpl.database.dataobject.MeUser;
+import com.me.mesite.infrastructure.gatawayimpl.database.dataobject.UpmsCUser;
 import com.me.mesite.module.Idds.service.MeUserService;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,18 +15,18 @@ public class UpmsUserController {
     private MeUserService meUserService;
 
     @GetMapping("list")
-    public R findAll(Integer page, Integer limit, String key) {
+    public R list(Integer page, Integer limit, String key) {
         return R.ok(meUserService.findMeLists(page, limit,key));
     }
 
     @GetMapping("get")
-    public R findAll(Long id) {
+    public R get(Long id) {
         return R.ok(meUserService.findById(id));
     }
 
     @PostMapping("edit")
-    public R findAll(@RequestBody MeUser meUser) {
-        return R.ok(meUserService.save(meUser));
+    public R edit(@RequestBody UpmsCUser upmsUser) {
+        return R.ok(meUserService.save(upmsUser));
     }
 
     @GetMapping("delete")
