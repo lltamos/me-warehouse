@@ -19,7 +19,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 @Service
-public class MeUserService {
+public class UpmsCUserService {
     @Resource
     private UpmsCUserRepository upmsCUserRepository;
 
@@ -27,10 +27,10 @@ public class MeUserService {
         Assert.isNull(page, "page is empty");
         Assert.isNull(limit, "limit is empty");
         Pageable pageable = PageRequest.of(page - 1, limit, SortUtils.buildDESC(Constant.UTIME));
-        return StringUtils.isEmpty(key) ? upmsCUserRepository.findAll(pageable) : upmsCUserRepository.findMeUserByPhoneStartingWith(key, pageable);
+        return StringUtils.isEmpty(key) ? upmsCUserRepository.findAll(pageable) : upmsCUserRepository.findUpmsCUserByPhoneStartingWith(key, pageable);
     }
 
-    public UpmsCUser findById(Long id) {
+    public UpmsCUser findById(Integer id) {
         Assert.isNull(id, "id is empty");
 
         Optional<UpmsCUser> optional = upmsCUserRepository.findById(id);
@@ -47,7 +47,7 @@ public class MeUserService {
 
 
         Date currentTimeMillis = new Date();
-        if (Objects.nonNull(upmsUser) && upmsUser.getId() == null) {
+        if (upmsUser.getId() == null) {
             upmsUser.setCtime(currentTimeMillis);
             upmsUser.setUtime(currentTimeMillis);
             upmsUser.setApprovalStatus(0);
@@ -70,7 +70,7 @@ public class MeUserService {
         return upmsUser;
     }
 
-    public void delete(Long id) {
+    public void delete(Integer id) {
         Assert.isNull(id, "id is not null");
         upmsCUserRepository.deleteById(id);
     }

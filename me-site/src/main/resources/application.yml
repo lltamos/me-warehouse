@@ -32,8 +32,6 @@ spring:
     show-sql: true
     open-in-view: true
 
-
-
 me:
   redis:
     open: false  # 是否开启redis缓存  true开启   false关闭
@@ -45,3 +43,7 @@ me:
     # token有效时长，7天，单位秒
     expire: 604800
     header: token
+logging:
+  config: classpath:logback-spring.xml
+  file:
+    path: logging.path=D:/nmyslog/nmys

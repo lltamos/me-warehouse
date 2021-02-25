@@ -24,7 +24,7 @@ public class TmsKindType {
     /**
      * 类型名称
      */
-    private Integer name;
+    private String name;
 
     /**
      * 父id

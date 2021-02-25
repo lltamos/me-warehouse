@@ -2,7 +2,7 @@ package com.me.mesite.module.Idds.web.upms;
 
 import com.me.mesite.common.utils.R;
 import com.me.mesite.infrastructure.gatawayimpl.database.dataobject.UpmsCUser;
-import com.me.mesite.module.Idds.service.MeUserService;
+import com.me.mesite.module.Idds.service.UpmsCUserService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -12,26 +12,26 @@ import javax.annotation.Resource;
 public class UpmsUserController {
 
     @Resource
-    private MeUserService meUserService;
+    private UpmsCUserService upmsCUserService;
 
     @GetMapping("list")
     public R list(Integer page, Integer limit, String key) {
-        return R.ok(meUserService.findMeLists(page, limit,key));
+        return R.ok(upmsCUserService.findMeLists(page, limit,key));
     }
 
     @GetMapping("get")
-    public R get(Long id) {
-        return R.ok(meUserService.findById(id));
+    public R get(Integer id) {
+        return R.ok(upmsCUserService.findById(id));
     }
 
     @PostMapping("edit")
     public R edit(@RequestBody UpmsCUser upmsUser) {
-        return R.ok(meUserService.save(upmsUser));
+        return R.ok(upmsCUserService.save(upmsUser));
     }
 
     @GetMapping("delete")
-    public R delete(Long id) {
-        meUserService.delete(id);
+    public R delete(Integer id) {
+        upmsCUserService.delete(id);
         return R.okStr();
     }
 
