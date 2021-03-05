@@ -2,7 +2,7 @@ package com.me.mesite.infrastructure.gatawayimpl.database.repository;
 
 import com.me.mesite.infrastructure.gatawayimpl.database.dataobject.TmsKindType;
 import com.me.mesite.infrastructure.gatawayimpl.database.dataobject.TmsQuestionReps;
-import com.me.mesite.module.tms.service.TmsFileConstantService;
+import com.me.mesite.module.tms.service.TmsFileConstantCacheService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -17,7 +17,7 @@ class TmsQuestionRepsRepositoryTest {
     @Resource
     TmsQuestionRepsRepository tmsQuestionRepsRepository;
     @Resource
-    TmsFileConstantService tmsFileConstantService;
+    TmsFileConstantCacheService tmsFileConstantService;
 
     @Test
     void test() {

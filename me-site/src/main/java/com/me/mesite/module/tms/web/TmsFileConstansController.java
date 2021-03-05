@@ -14,11 +14,10 @@ public class TmsFileConstansController {
 
     private static final Log log1 = LogFactory.getLog(TmsFileConstansController.class);
 
+
     @GetMapping("list")
     public void list(Integer page, Integer limit, String key) {
         System.out.println(1);
-        log1.debug("yici");
-        log.info("yici");
     }
 
 }
