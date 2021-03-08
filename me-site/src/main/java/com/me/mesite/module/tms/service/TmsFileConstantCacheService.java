@@ -1,12 +1,12 @@
 package com.me.mesite.module.tms.service;
 
 import com.google.common.collect.Maps;
-import com.google.common.eventbus.EventBus;
-import com.me.mesite.common.utils.MapUtils;
 import com.me.mesite.common.utils.Tools;
 import com.me.mesite.common.validator.Assert;
 import com.me.mesite.infrastructure.gatawayimpl.database.dataobject.TmsKindType;
+import com.me.mesite.infrastructure.gatawayimpl.database.repository.TmsCourseTypeRepository;
 import com.me.mesite.infrastructure.gatawayimpl.database.repository.TmsKindTypeRepository;
+import com.me.mesite.module.tms.event.RefreshMsgEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
@@ -29,32 +29,37 @@ public class TmsFileConstantCacheService {
     @Resource
     private TmsKindTypeRepository tmsKindTypeRepository;
 
+    @Resource
+    private TmsCourseTypeRepository tmsCourseTypeRepository;
+
     public TmsKindType getKindType(Integer kinId) {
 
         Assert.isNull(kinId, "kindId is Null");
 
         if (Tools.isEmpty(cache)) {
             log.warn("********************************tmsKindTypeCache is null application execute plan init ");
-            init();
+            this.init();
         }
         Map<Integer, Object> tmsKindTypeCacheMap = cache.get(tmsKindTypeCacheName);
         return (TmsKindType) tmsKindTypeCacheMap.get(kinId);
     }
 
     @PostConstruct
-    void init() {
+    private void init() {
         cache.clear();
         List<TmsKindType> tmsKindTypes = tmsKindTypeRepository.findAll();
-        Map tmsKindTypeCacheMap = tmsKindTypes.stream().collect(Collectors.toMap(TmsKindType::getId, x1 -> x1));
+        Map<Integer, Object> tmsKindTypeCacheMap = tmsKindTypes.stream().collect(Collectors.toMap(TmsKindType::getId, x1 -> x1));
         cache.put(tmsKindTypeCacheName, tmsKindTypeCacheMap);
-        log.info("system db ContactCache init...write  TmsKindType", tmsKindTypeCacheMap);
+        log.info("system db ContactCache write TmsKindType:{} success", tmsKindTypeCacheMap);
     }
 
 
-
-    @EventListener
-    public void handleOrderEvent(EventBus event) {
-        System.out.println("我监听到了handleOrderEvent发布的message为:" + event.getMsg());
+    @EventListener(classes = RefreshMsgEvent.class)
+    public void handleRefreshMsgEvent(RefreshMsgEvent event) {
+        log.info("RefreshMsgEvent execute refresh ,type:{},args:{}", event.getRefreshType().toString(), event.getSource());
+        if (event.getRefreshType() == RefreshMsgEvent.RefreshType.Constant) {
+            this.init();
+        }
     }
 
 }

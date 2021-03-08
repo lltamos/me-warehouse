@@ -22,34 +22,38 @@ import org.apache.commons.lang.StringUtils;
 
 /**
  * 数据校验
- * 
+ *
  * @author lltamos
  * @email lltamos@outlook.com
  * @date 2017-03-23 15:50
  */
 public abstract class Assert {
 
-	public static void isBlank(String str, String message) {
-		if (StringUtils.isBlank(str)) {
-			throw new RRException(message);
-		}
-	}
+    public static void isBlank(String str, String message) {
+        if (StringUtils.isBlank(str)) {
+            throw new RRException(message);
+        }
+    }
 
-	public static void isNull(Object object, String message) {
-		if (object == null) {
-			throw new RRException(message);
-		}
-	}
+    public static void isNull(Object object) {
+        isNull(object, "target is null");
+    }
 
-	public static void notEmpty(Object t) {
-		try {
-			org.springframework.util.Assert.notEmpty(BeanUtil.beanToMap(t, false, true), "数据不能都为空");
+    public static void isNull(Object object, String message) {
+        if (object == null) {
+            throw new RRException(message);
+        }
+    }
 
-		} catch (Exception e) {
-			// TODO: handle exception
-			throw new RRException(e.getMessage());
+    public static void notEmpty(Object t) {
+        try {
+            org.springframework.util.Assert.notEmpty(BeanUtil.beanToMap(t, false, true), "数据不能都为空");
 
-		}
-	}
+        } catch (Exception e) {
+            // TODO: handle exception
+            throw new RRException(e.getMessage());
+
+        }
+    }
 
 }
