@@ -20,6 +20,8 @@ import cn.hutool.core.bean.BeanUtil;
 import com.me.mesite.common.exception.RRException;
 import org.apache.commons.lang.StringUtils;
 
+import javax.validation.constraints.NotNull;
+
 /**
  * 数据校验
  *
@@ -29,6 +31,12 @@ import org.apache.commons.lang.StringUtils;
  */
 public abstract class Assert {
 
+
+    private final static String MSG_NULL = "target is null";
+
+    private final static String VALIDATE_FAIL = "validate is fail";
+
+
     public static void isBlank(String str, String message) {
         if (StringUtils.isBlank(str)) {
             throw new RRException(message);
@@ -36,7 +44,7 @@ public abstract class Assert {
     }
 
     public static void isNull(Object object) {
-        isNull(object, "target is null");
+        isNull(object, MSG_NULL);
     }
 
     public static void isNull(Object object, String message) {
@@ -44,6 +52,27 @@ public abstract class Assert {
             throw new RRException(message);
         }
     }
+
+    public static void after(@NotNull Integer target, @NotNull Integer compare, String message) {
+        if (target > compare) {
+            throw new RRException(message);
+        }
+    }
+
+    public static void after(@NotNull Integer target, @NotNull Integer compare) {
+        after(target, compare, VALIDATE_FAIL);
+    }
+
+    public static void before(@NotNull Integer target, @NotNull Integer compare, String message) {
+        if (target < compare) {
+            throw new RRException(message);
+        }
+    }
+
+    public static void before(@NotNull Integer target, @NotNull Integer compare) {
+        before(target, compare, VALIDATE_FAIL);
+    }
+
 
     public static void notEmpty(Object t) {
         try {

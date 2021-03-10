@@ -18,6 +18,8 @@ public class TmsFileConstansController {
     @GetMapping("list")
     public void list(Integer page, Integer limit, String key) {
         System.out.println(1);
+        log.info("1");
+        log.debug("2");
     }
 
 }
