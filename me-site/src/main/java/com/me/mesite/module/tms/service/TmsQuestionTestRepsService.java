@@ -5,7 +5,7 @@ import com.me.mesite.infrastructure.gatawayimpl.database.dataobject.TmsQuestionR
 import com.me.mesite.infrastructure.gatawayimpl.database.repository.TmsQuestionRepository;
 import com.me.mesite.infrastructure.gatawayimpl.database.repository.TmsQuestionRepsRepository;
 import com.me.mesite.module.Idds.config.Constant;
-import com.me.mesite.module.tms.dto.vo.TmsQuestionRepsVo;
+import com.me.mesite.domain.vo.TmsQuestionRepsVo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -19,7 +19,7 @@ import javax.transaction.Transactional;
 
 @Service
 @Slf4j
-public class QuestionTestRepsService {
+public class TmsQuestionTestRepsService {
 
     @Resource
     private TmsQuestionRepsRepository tmsQuestionRepsRepository;

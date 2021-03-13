@@ -50,3 +50,6 @@ me:
     header: token
 logging:
   config: classpath:logback-spring.xml
+mybatis:
+  mapper-locations: classpath:mapper/*Mapper.xml
+  type-aliases-package:

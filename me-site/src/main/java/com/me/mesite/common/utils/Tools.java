@@ -1,5 +1,6 @@
 package com.me.mesite.common.utils;
 
+import org.apache.commons.lang.NumberUtils;
 import org.apache.commons.lang.StringUtils;
 
 import java.io.*;
@@ -7,7 +8,9 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.Collection;
+import java.util.Date;
+import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -278,9 +281,24 @@ public class Tools {
         return String.format("%1$032x", new Object[]{var5});
     }
 
+    public static boolean isNumber(Object obj) {
+        if (obj == null) return false;
+
+        try {
+            Integer n = (Integer) obj;
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
 
     public static boolean isNull(Object obj) {
         return obj == null;
+    }
+
+
+    public static boolean isNotEmpty(Object obj) {
+        return obj != null;
     }
 
     public static boolean isEmpty(Object obj) {
@@ -294,11 +312,7 @@ public class Tools {
         if (obj instanceof String) {
             return StringUtils.isEmpty((String) obj);
         }
-
-
-
         return false;
-
     }
 
     public static void main(String[] args) {

@@ -1,10 +1,11 @@
-package com.me.mesite.module.tms.dto.vo;
+package com.me.mesite.domain.vo;
 
+import com.me.mesite.domain.common.Vo;
 import com.me.mesite.infrastructure.gatawayimpl.database.dataobject.TmsQuestionReps;
 import lombok.Data;
 
 @Data
-public class TmsQuestionRepsVo extends TmsQuestionReps {
+public class TmsQuestionRepsVo extends TmsQuestionReps implements Vo {
     private int totalQuestion;
     private int singleChoice;
     private int multipleChoice;
@@ -12,5 +13,6 @@ public class TmsQuestionRepsVo extends TmsQuestionReps {
     private int interpose;//填空
     private int shortAnswer;
     private int groupQuestion;
+
 
 }
