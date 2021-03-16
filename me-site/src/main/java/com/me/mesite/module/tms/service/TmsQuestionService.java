@@ -1,10 +1,11 @@
 package com.me.mesite.module.tms.service;
 
-import com.me.mesite.common.utils.PageResponse;
+import com.me.mesite.common.utils.PageMeData;
 import com.me.mesite.common.utils.RequestUtils;
-import com.me.mesite.common.utils.Response;
-import com.me.mesite.common.utils.SimpleResponse;
+import com.me.mesite.common.utils.MeData;
+import com.me.mesite.common.utils.SimpleMeData;
 import com.me.mesite.domain.vo.TmsQuestionVo;
+import com.me.mesite.infrastructure.gatawayimpl.database.dataobject.TmsQuestion;
 import com.me.mesite.infrastructure.gatawayimpl.database.mapper.TmsQuestionMapper;
 import com.me.mesite.infrastructure.gatawayimpl.database.repository.TmsQuestionRepository;
 import com.me.mesite.module.tms.enums.QuestionEnum;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,7 +28,7 @@ public class TmsQuestionService {
     @Resource
     private TmsQuestionMapper tmsQuestionMapper;
 
-    public Response findQuestionLists(Integer questionRepsId, Integer txid, String key) {
+    public MeData findQuestionLists(Integer questionRepsId, Integer txid, String key) {
 
         RequestUtils.Param param = RequestUtils.parseRequestBaseParam();
         if (StringUtils.isEmpty(key)) {
@@ -50,11 +52,45 @@ public class TmsQuestionService {
             } else {
                 total = tmsQuestionRepository.countByTmsQuestionRepsIdAndTxId(questionRepsId, txid);
             }
-            return PageResponse.autoInitPageSelfArgsResponse(tmsQuestionVos, total, param.getLimit(), param.getPage());
+            return PageMeData.autoInitPageSelfArgsResponse(tmsQuestionVos, total, param.getLimit(), param.getPage());
         }
 
-        return SimpleResponse.initSimpleResponse(tmsQuestionVos);
+        return SimpleMeData.initSimpleResponse(tmsQuestionVos);
 
 
     }
+
+    public TmsQuestion delete(Integer id) {
+        TmsQuestion tmsQuestion = tmsQuestionRepository.getOne(id);
+//        if (tmsQuestion.getTxId()==5){
+//            //级联删除子实体
+//        }
+        return tmsQuestion;
+    }
+
+
+    //去掉题冒题概念
+
+
+    public void ct() {
+
+
+        List<TmsQuestion> byTimao = tmsQuestionRepository.findByTimao(1);
+
+
+        for (int i = 0; i < byTimao.size(); i++) {
+
+            TmsQuestion tmsQuestion = byTimao.get(i);
+            Optional<TmsQuestion> byId = tmsQuestionRepository.findById(tmsQuestion.getId());
+            TmsQuestion tmsQuestion1 = byId.get();
+
+            tmsQuestion1.setTxId(5);
+
+
+
+        }
+
+
+    }
+
 }

@@ -19,4 +19,9 @@ public class TmsQuestionController {
     public R list(Integer questionRepsId, Integer txid, String key) {
         return R.ok(tmsQuestionService.findQuestionLists(questionRepsId, txid, key));
     }
+
+    @GetMapping("delete")
+    public R delete(Integer id) {
+        return R.ok(tmsQuestionService.delete(id));
+    }
 }
