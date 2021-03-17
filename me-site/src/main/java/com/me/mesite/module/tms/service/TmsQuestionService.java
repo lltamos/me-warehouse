@@ -15,6 +15,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -72,25 +73,17 @@ public class TmsQuestionService {
     //去掉题冒题概念
 
 
+
     public void ct() {
-
-
         List<TmsQuestion> byTimao = tmsQuestionRepository.findByTimao(1);
-
-
-        for (int i = 0; i < byTimao.size(); i++) {
-
+        System.out.println(200);
+        for (int i = 0; i < 100; i++) {
             TmsQuestion tmsQuestion = byTimao.get(i);
-            Optional<TmsQuestion> byId = tmsQuestionRepository.findById(tmsQuestion.getId());
-            TmsQuestion tmsQuestion1 = byId.get();
-
-            tmsQuestion1.setTxId(5);
-
-
+            tmsQuestion.setTxId(5);
+            tmsQuestion.setTimao(2);
+            tmsQuestionRepository.save(tmsQuestion);
 
         }
-
-
     }
 
 }

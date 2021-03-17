@@ -22,4 +22,9 @@ class TmsQuestionServiceTest {
 
 
     }
+
+    @Test
+    void clTest(){
+        tmsQuestionService.ct();
+    }
 }

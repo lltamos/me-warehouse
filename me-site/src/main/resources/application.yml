@@ -5,19 +5,18 @@ spring:
   #数据源配置
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://182.92.71.18:3306/me_warehouse?useUnicode=true&characterEncoding=utf8&useSSL=false
+    url: jdbc:mysql://182.92.71.18:3306/me_warehouse?autoReconnect=true&useUnicode=true&characterEncoding=utf8&useSSL=true
     username: ME_Warehouse
     password: hcWFjG8kzZrJ65ny
     type: com.alibaba.druid.pool.DruidDataSource
+    platform: mysql
     druid:
       #初始连接数，默认0
-      initial-size: 0
+      initial-size: 2
       #最小空闲连接数
-      min-idle: 5
+      min-idle: 2
       #最大活跃连接数，默认8
-      max-active: 8
-      #以上3个配置项，设置为0表示无限
-
+      max-active: 50
       #获取连接的最大等待时间（池中无空闲连接时最多等待多少ms），默认-1  一直等待，此处设置为30000ms，即30s
       max-wait: 30000
 
@@ -25,6 +24,16 @@ spring:
       #spring.datasource.druid.poolPreparedStatements=true
       #缓存的PreparedStatement的最大数量，默认-1  不缓存，大于0时会自动开启PreparedStatement缓存，所以可以缺省上一句配置
       max-open-prepared-statements: 20
+
+      #用来检测连接是否有效
+      validation-query: select 1
+      #申请连接的时候检测，如果空闲时间大于则检测连接是否有效
+      test-while-idle: true
+
+
+
+
+
   jpa:
     hibernate:
       ddl-auto: update
