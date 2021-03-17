@@ -2,10 +2,7 @@ package com.me.mesite.infrastructure.gatawayimpl.database.dataobject;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 
 /**
@@ -70,8 +67,6 @@ public class TmsQuestion {
      */
     private String img;
 
-    private Integer timao;
-
     /**
      * 备选项
      */
@@ -85,7 +80,7 @@ public class TmsQuestion {
     /**
      * 备选项的长度
      */
-    private Integer optLength;
+    private Integer optSize;
 
     /**
      * 是否审核通过
@@ -98,13 +93,14 @@ public class TmsQuestion {
     private String answer;
 
     /**
+     * 添加时间
+     */
+    private Date ctime;
+
+    /**
      * 更新时间
      */
     private Date utime;
 
-    /**
-     * 添加时间
-     */
-    private Date ctime;
 
 }
