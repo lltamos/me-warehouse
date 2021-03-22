@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.me.mesite.infrastructure.gatawayimpl.database.mapper.TmsQuestionMapper">
-	<resultMap id="BaseResultMap" type="com.me.mesite.infrastructure.gatawayimpl.database.dataobject.TmsQuestion">
+<mapper namespace="com.me.mesite.infrastructure.gatawayimpl.database.mapper.TmsTestMapper">
+	<resultMap id="BaseResultMap" type="com.me.mesite.infrastructure.gatawayimpl.database.dataobject.TmsTest">
 		<id column="id" jdbcType="INTEGER" property="id"/>
-		<result column="tms_question_reps_id" jdbcType="INTEGER" property="tmsQuestionRepsId"/>
+		<result column="tms_test_reps_id" jdbcType="INTEGER" property="tmsTestRepsId"/>
 		<result column="tyear" jdbcType="VARCHAR" property="tyear"/>
 		<result column="tms_kind_type_id" jdbcType="INTEGER" property="tmsKindTypeId"/>
 		<result column="tms_course_type_id" jdbcType="INTEGER" property="tmsCourseTypeId"/>
@@ -13,34 +13,49 @@
 		<result column="tx_id" jdbcType="INTEGER" property="txId"/>
 		<result column="tigan" jdbcType="VARCHAR" property="tigan"/>
 		<result column="img" jdbcType="VARCHAR" property="img"/>
-		<result column="timao" jdbcType="TINYINT" property="timao"/>
 		<result column="options" jdbcType="VARCHAR" property="options"/>
 		<result column="analyse" jdbcType="VARCHAR" property="analyse"/>
-		<result column="opt_length" jdbcType="INTEGER" property="optLength"/>
+		<result column="opt_length" jdbcType="INTEGER" property="optSize"/>
 		<result column="locked" jdbcType="TINYINT" property="locked"/>
 		<result column="answer" jdbcType="VARCHAR" property="answer"/>
 		<result column="utime" jdbcType="TIMESTAMP" property="utime"/>
 		<result column="ctime" jdbcType="TIMESTAMP" property="ctime"/>
 	</resultMap>
 
-	<select id="selectByTmsQuestionIdAndTxIdTiganLike" resultMap="BaseResultMap">
-		select * from tms_question
+	<select id="selectByTmsTestIdAndTxIdTiganLike" resultMap="BaseResultMap">
+		select * from tms_test
 		<where>
-			<if test="tmsQuestionId!=null">
-				tms_question_reps_id=#{tmsQuestionId}
+			<if test="tmsTestId!=null">
+				tms_test_reps_id=#{tmsTestId}
 			</if>
 			<if test="txId!=null">
 				and tx_id=#{txId}
 			</if>
 
 			<if test="tiGan!=null and tiGan!=''">
-				and tiGan like concat('%',#{tiGan},'%')
+				and tigan like concat('%',#{tiGan},'%')
 			</if>
 		</where>
 
 		<if test="from!=null and limit!=null">
 			limit #{from} ,#{limit}
 		</if>
+	</select>
 
+
+
+	<select id="countByTmsTestIdAndTxIdTiganLike" resultType="java.lang.Integer">
+		select count(id) from tms_test
+		<where>
+			<if test="tmsTestId!=null">
+				tms_test_reps_id=#{tmsTestId}
+			</if>
+			<if test="txId!=null">
+				and tx_id=#{txId}
+			</if>
+			<if test="tiGan!=null and tiGan!=''">
+				and tigan like concat('%',#{tiGan},'%')
+			</if>
+		</where>
 	</select>
 </mapper>

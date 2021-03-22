@@ -8,9 +8,9 @@ import java.util.Date;
 /**
  * 试题表
  */
-@Entity(name = "tms_question")
+@Entity(name = "tms_test")
 @Data
-public class TmsQuestion {
+public class TmsTest {
 
 
     @Id
@@ -20,7 +20,7 @@ public class TmsQuestion {
     /**
      * 试题题库id
      */
-    private Integer tmsQuestionRepsId;
+    private Integer tmsTestRepsId;
 
     /**
      * 年份

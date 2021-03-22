@@ -1,11 +1,11 @@
 package com.me.mesite.domain.vo;
 
 import com.me.mesite.domain.common.Vo;
-import com.me.mesite.infrastructure.gatawayimpl.database.dataobject.TmsQuestionReps;
+import com.me.mesite.infrastructure.gatawayimpl.database.dataobject.TmsTestReps;
 import lombok.Data;
 
 @Data
-public class TmsQuestionRepsVo extends TmsQuestionReps implements Vo {
+public class TmsTestRepsVo extends TmsTestReps implements Vo {
     private int totalQuestion;
     private int singleChoice;
     private int multipleChoice;

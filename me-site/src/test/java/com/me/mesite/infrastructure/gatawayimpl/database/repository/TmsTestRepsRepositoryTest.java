@@ -1,7 +1,6 @@
 package com.me.mesite.infrastructure.gatawayimpl.database.repository;
 
-import com.me.mesite.infrastructure.gatawayimpl.database.dataobject.TmsKindType;
-import com.me.mesite.infrastructure.gatawayimpl.database.dataobject.TmsQuestionReps;
+import com.me.mesite.infrastructure.gatawayimpl.database.dataobject.TmsTestReps;
 import com.me.mesite.module.tms.service.TmsFileConstantCacheService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.jupiter.api.Test;
@@ -12,10 +11,10 @@ import java.util.List;
 
 @SpringBootTest
 @Slf4j
-class TmsQuestionRepsRepositoryTest {
+class TmsTestRepsRepositoryTest {
 
     @Resource
-    TmsQuestionRepsRepository tmsQuestionRepsRepository;
+    TmsTestRepsRepository tmsTestRepsRepository;
     @Resource
     TmsFileConstantCacheService tmsFileConstantService;
 
@@ -25,15 +24,15 @@ class TmsQuestionRepsRepositoryTest {
     }
 
     @Test
-    void findTmsQuestionRepsByNameStartsWith() {
-        List<TmsQuestionReps> all = tmsQuestionRepsRepository.findAll();
+    void findTmsTestRepsByNameStartsWith() {
+        List<TmsTestReps> all = tmsTestRepsRepository.findAll();
 
         all.forEach(item -> {
 
             Integer id = item.getTmsKindTypeId();
             TmsKindType kindType = tmsFileConstantService.getKindType(id);
             item.setTmsKindTypeStr(kindType.getName());
-            tmsQuestionRepsRepository.save(item);
+            tmsTestRepsRepository.save(item);
         });
     }
 }

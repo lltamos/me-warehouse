@@ -1,6 +1,5 @@
 package com.me.mesite.infrastructure.gatawayimpl.database.repository;
 
-import com.me.mesite.infrastructure.gatawayimpl.database.dataobject.TmsChapterType;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 

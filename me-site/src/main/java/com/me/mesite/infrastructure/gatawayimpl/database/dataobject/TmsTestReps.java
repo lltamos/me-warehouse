@@ -9,41 +9,28 @@ import javax.persistence.Id;
 import java.util.Date;
 
 /**
- * 项目分类表
+ * 试题库
  */
-@Entity(name = "tms_kind_type")
+@Entity(name = "tms_test_reps")
 @Data
-public class TmsKindType {
-    /**
-     * 编号
-     */
+public class TmsTestReps {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    /**
-     * 类型名称
-     */
     private String name;
 
     /**
-     * 父id
+     * tms_kind_type 主键ID
      */
-    private Integer pid;
-    /**
-     * 排序
-     */
-    private Integer sort;
+    private Integer tmsKindTypeId;
+
+    private String tmsKindTypeStr;
 
     private Integer locked;
-
-    private String remark;
 
     private Date ctime;
 
     private Date utime;
-
-
-
 
 }
