@@ -1,4 +1,4 @@
-package com.me.mesite.module.Idds.web;
+package com.me.mesite.module;
 
 import com.me.mesite.common.exception.RRException;
 import com.me.mesite.common.utils.AppBaseResult;

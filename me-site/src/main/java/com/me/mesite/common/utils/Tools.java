@@ -292,6 +292,27 @@ public class Tools {
         }
     }
 
+    /**
+     * 主键校验
+     *
+     * @param obj
+     * @return
+     */
+    public static boolean checkPrimaryNumber(Object obj) {
+        if (obj == null) return false;
+
+        try {
+            Integer n = (Integer) obj;
+            if (n > 0) {
+                return true;
+            }
+
+        } catch (Exception e) {
+            return false;
+        }
+        return false;
+    }
+
     public static boolean isNull(Object obj) {
         return obj == null;
     }

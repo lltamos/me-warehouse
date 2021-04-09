@@ -1,12 +1,16 @@
 package com.me.mesite.module.tms.web;
 
-import com.me.mesite.common.utils.R;
+import com.me.mesite.domain.common.Result;
 import com.me.mesite.domain.vo.TmsTestVo;
+import com.me.mesite.module.tms.entity.TmsSearchBo;
 import com.me.mesite.module.tms.service.TmsTestService;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
+/**
+ * 试题
+ */
 @RestController
 @RequestMapping("/tms/test")
 public class TmsTestController {
@@ -15,13 +19,13 @@ public class TmsTestController {
     private TmsTestService tmsTestService;
 
     @GetMapping("list")
-    public R list(Integer testRepsId, Integer txid, String key) {
-        return R.ok(tmsTestService.findTestLists(testRepsId, txid, key));
+    public Result list(@RequestBody TmsSearchBo tmsSearchBo) {
+        return Result.ok(tmsTestService.findTestLists(tmsSearchBo));
     }
 
     @PostMapping("update")
-    public R update(@RequestBody TmsTestVo tmsTestVo) {
-        return R.ok(tmsTestService.createAndUpdate(tmsTestVo));
+    public Result update(@RequestBody TmsTestVo tmsTestVo) {
+        return Result.ok(tmsTestService.createAndUpdate(tmsTestVo));
     }
 
 }

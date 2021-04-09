@@ -3,6 +3,11 @@ package com.me.mesite.module.tms.service;
 import com.google.common.collect.Maps;
 import com.me.mesite.common.utils.Tools;
 import com.me.mesite.common.validator.Assert;
+import com.me.mesite.infrastructure.gatawayimpl.database.dataobject.TmsTypeKind;
+import com.me.mesite.infrastructure.gatawayimpl.database.dataobject.TmsTypeSubject;
+import com.me.mesite.infrastructure.gatawayimpl.database.repository.TmsTypeCourseRepository;
+import com.me.mesite.infrastructure.gatawayimpl.database.repository.TmsTypeKindRepository;
+import com.me.mesite.infrastructure.gatawayimpl.database.repository.TmsTypeSubjectRepository;
 import com.me.mesite.module.tms.event.RefreshMsgEvent;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.event.EventListener;
@@ -25,13 +30,13 @@ public class TmsFileConstantCacheService {
     private Map<String, Map<Integer, Object>> cache = Maps.newHashMap();
 
     @Resource
-    private TmsKindTypeRepository tmsKindTypeRepository;
+    private TmsTypeKindRepository tmsTypeKindRepository;
     @Resource
-    private TmsCourseTypeRepository tmsCourseTypeRepository;
+    private TmsTypeCourseRepository tmsTypeCourseRepository;
     @Resource
-    private TmsSubjectTypeRepository tmsSubjectTypeRepository;
+    private TmsTypeSubjectRepository tmsTypeSubjectRepository;
 
-    public TmsKindType getKindType(Integer kinId) {
+    public TmsTypeKind getTypeKind(Integer kinId) {
 
         Assert.isNull(kinId, "kindId is Null");
 
@@ -40,19 +45,19 @@ public class TmsFileConstantCacheService {
             this.init();
         }
         Map<Integer, Object> tmsKindTypeCacheMap = cache.get(tmsKindTypeCacheName);
-        return (TmsKindType) tmsKindTypeCacheMap.get(kinId);
+        return (TmsTypeKind) tmsKindTypeCacheMap.get(kinId);
     }
 
     @PostConstruct
     private void init() {
         cache.clear();
         //缓存项目分类信息
-        List<TmsKindType> tmsKindTypes = tmsKindTypeRepository.findAll();
-        Map<Integer, Object> tmsKindTypeCacheMap = tmsKindTypes.stream().collect(Collectors.toMap(TmsKindType::getId, x1 -> x1));
+        List<TmsTypeKind> tmsKindTypes = tmsTypeKindRepository.findAll();
+        Map<Integer, Object> tmsKindTypeCacheMap = tmsKindTypes.stream().collect(Collectors.toMap(TmsTypeKind::getId, x1 -> x1));
         cache.put(tmsKindTypeCacheName, tmsKindTypeCacheMap);
         //缓存项目信息
-        List<TmsSubjectType> tmsSubjectTypes = tmsSubjectTypeRepository.findAll();
-        Map<Integer, Object> tmsSubjectTypesCacheMap = tmsSubjectTypes.stream().collect(Collectors.toMap(TmsSubjectType::getId, x1 -> x1));
+        List<TmsTypeSubject> tmsSubjectTypes = tmsTypeSubjectRepository.findAll();
+        Map<Integer, Object> tmsSubjectTypesCacheMap = tmsSubjectTypes.stream().collect(Collectors.toMap(TmsTypeSubject::getId, x1 -> x1));
         cache.put(tmsSubjectTypeCacheName, tmsSubjectTypesCacheMap);
         log.info("system db ContactCache write TmsKindType:{} tmsSubjectTypes{},success", tmsKindTypeCacheMap, tmsSubjectTypesCacheMap);
 

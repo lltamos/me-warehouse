@@ -13,9 +13,9 @@ import java.util.Date;
  *
  * @author llt
  */
-@Entity(name="upms_s_user")
+@Entity(name="upms_user")
 @Data
-public class UpmsSUser {
+public class UpmsUser {
     /**
      * 编号
      */
@@ -75,6 +75,5 @@ public class UpmsSUser {
 
     private Date utime;
 
-    private static final long serialVersionUID = 1L;
 
 }

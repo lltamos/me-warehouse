@@ -2,10 +2,12 @@ package com.me.mesite.module.tms.service;
 
 import com.me.mesite.common.utils.*;
 import com.me.mesite.common.validator.Assert;
+import com.me.mesite.domain.common.BasePage;
 import com.me.mesite.domain.vo.TmsTestVo;
 import com.me.mesite.infrastructure.gatawayimpl.database.dataobject.TmsTest;
 import com.me.mesite.infrastructure.gatawayimpl.database.mapper.TmsTestMapper;
 import com.me.mesite.infrastructure.gatawayimpl.database.repository.TmsTestRepository;
+import com.me.mesite.module.tms.entity.TmsSearchBo;
 import com.me.mesite.module.tms.enums.QuestionEnum;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
@@ -13,7 +15,9 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -25,34 +29,34 @@ public class TmsTestService {
     @Resource
     private TmsTestMapper tmsTestMapper;
 
-    public MeData findTestLists(Integer questionRepsId, Integer txid, String key) {
+    public BasePage findTestLists(TmsSearchBo tmsSearchBo) {
 
-        RequestUtils.Param param = RequestUtils.parseRequestBaseParam();
-        if (StringUtils.isEmpty(key)) {
-            key = null;
-        }
-        List<TmsTestVo> tmsTestVos = tmsTestMapper.selectByTmsTestIdAndTxIdTiganLike(questionRepsId,
-                txid,
-                key,
-                param.getCelFrom(),
-                param.getLimit()).stream().map(item -> {
+        TmsSearchBo tmsSearchBoPre = Optional.ofNullable(tmsSearchBo).orElse(new TmsSearchBo());
+
+        List<TmsTestVo> tmsTestVos = tmsTestMapper.selectByTmsTestIdAndTxIdTiganLike(tmsSearchBoPre.getTestRepsId(),
+                tmsSearchBoPre.getTxid(),
+                tmsSearchBoPre.getKey(),
+                tmsSearchBoPre.getCelFrom(),
+                tmsSearchBoPre.getLimit()).stream().map(item -> {
             TmsTestVo vo = new TmsTestVo();
             BeanUtils.copyProperties(item, vo);
             vo.setTxStr(QuestionEnum.getVal(item.getTxId()));
             return vo;
         }).collect(Collectors.toList());
 
+        BasePage<TmsTestVo> parse = tmsSearchBoPre.parse();
 
-        if (param.isPaging()) {
-            Integer countTmsTests = tmsTestMapper.countByTmsTestIdAndTxIdTiganLike(questionRepsId,
-                    txid,
-                    key);
-            return PageMeData.autoInitPageSelfArgsResponse(tmsTestVos, countTmsTests, param.getLimit(), param.getPage());
+        if (tmsSearchBoPre.isPageType()) {
+            Integer countTmsTests = tmsTestMapper.countByTmsTestIdAndTxIdTiganLike(
+                    tmsSearchBoPre.getTestRepsId(),
+                    tmsSearchBoPre.getTxid(),
+                    tmsSearchBoPre.getKey());
+            return parse.autoInitPageSelfArgsResponse(tmsTestVos, countTmsTests);
         }
-
-        return SimpleMeData.initSimpleResponse(tmsTestVos);
+        return parse.autoInitPageSelfArgsResponse(tmsTestVos);
     }
 
+    @Transactional
     public TmsTest createAndUpdate(TmsTestVo tmsTestVo) {
         Assert.isNull(tmsTestVo);
         TmsTest tmsTest = null;

@@ -8,14 +8,14 @@ import java.util.List;
 
 public interface TmsTestPaperMapper {
 
-    List<TmsTestPager> selectTmsTestPaper(@Param("tmsKindId") Integer tmsKindId,
-                                          @Param("tmsCourseId") Integer tmsCourseId,
+    List<TmsTestPager> selectTmsTestPaper(@Param("tmsKindTypeId") Integer tmsKindTypeId,
+                                          @Param("tmsCourseTypeId") Integer tmsCourseTypeId,
                                           @Param("title") String title,
                                           @Param("from") Integer from,
                                           @Param("limit") Integer limit);
 
-    Integer countTmsTestPaper(@Param("tmsKindId") Integer tmsKindId,
-                                         @Param("tmsCourseId") Integer tmsCourseId,
-                                         @Param("title") String title);
+    Integer countTmsTestPaper(@Param("tmsKindTypeId") Integer tmsKindTypeId,
+                              @Param("tmsCourseTypeId") Integer tmsCourseTypeId,
+                              @Param("title") String title);
 
 }

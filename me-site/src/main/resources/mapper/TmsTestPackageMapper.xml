@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.me.mesite.infrastructure.gatawayimpl.database.mapper.TmsTestPaperMapper">
+<mapper namespace="com.me.mesite.infrastructure.gatawayimpl.database.mapper.TmsTestPackageMapper">
 
-	<select id="selectTmsTestPaper" resultType="com.me.mesite.infrastructure.gatawayimpl.database.dataobject.TmsTestPager">
-		select * from tms_test_pager
+	<select id="selectTmsTestPackage" resultType="com.me.mesite.infrastructure.gatawayimpl.database.dataobject.TmsTestPackage">
+		select * from tms_test_package
 		<where>
 			<if test="tmsKindTypeId!=null">
-				tms_kind_id=#{tmsKindTypeId}
+				tms_kind_type_id=#{tmsKindTypeId}
 			</if>
 			<if test="tmsCourseTypeId!=null">
-				and tms_course_id=#{tmsCourseTypeId}
+				and tms_course_type_id=#{tmsCourseTypeId}
 			</if>
 			<if test="title!=null and title!=''">
 				and title like concat('%',#{title},'%')
@@ -21,13 +21,13 @@
 		</if>
 	</select>
 
-	<select id="countTmsTestPaper" resultType="java.lang.Integer">
+	<select id="countTmsTestPackage" resultType="java.lang.Integer">
 		select count(id) from tms_test_pager
 		<where>
-			<if test="tmsKindTypeId!=null">
+			<if test="tmsKindId!=null">
 				tms_kind_type_id=#{tmsKindTypeId}
 			</if>
-			<if test="tmsCourseTypeId!=null">
+			<if test="tmsCourseId!=null">
 				and tms_course_type_id=#{tmsCourseTypeId}
 			</if>
 			<if test="title!=null and title!=''">

@@ -2,15 +2,23 @@ package com.me.mesite.module.tms.service;
 
 import com.me.mesite.common.utils.*;
 import com.me.mesite.common.validator.Assert;
+import com.me.mesite.domain.common.BasePage;
 import com.me.mesite.domain.vo.TmsTestPagerVo;
+import com.me.mesite.infrastructure.gatawayimpl.database.dataobject.TmsTest;
 import com.me.mesite.infrastructure.gatawayimpl.database.dataobject.TmsTestPager;
+import com.me.mesite.infrastructure.gatawayimpl.database.dataobject.TmsTestPaperShip;
 import com.me.mesite.infrastructure.gatawayimpl.database.mapper.TmsTestPaperMapper;
 import com.me.mesite.infrastructure.gatawayimpl.database.repository.TmsTestPagerRepository;
+import com.me.mesite.infrastructure.gatawayimpl.database.repository.TmsTestPaperShipRepository;
+import com.me.mesite.infrastructure.gatawayimpl.database.repository.TmsTestRepository;
+import com.me.mesite.module.tms.entity.TmsSearchBo;
 import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.math.NumberUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class TmsTestPagerService {
@@ -18,20 +26,30 @@ public class TmsTestPagerService {
     private TmsTestPagerRepository tmsTestPagerRepository;
 
     @Resource
+    private TmsTestRepository tmsTestRepository;
+
+    @Resource
+    private TmsTestPaperShipRepository tmsTestPaperShipRepository;
+
+    @Resource
     private TmsTestPaperMapper tmsTestPaperMapper;
 
-    public MeData<List> findTestPagerLists(Integer tmsKindId, Integer tmsCourseId, String key) {
-
-        RequestUtils.Param param = RequestUtils.parseRequestBaseParam();
-        if (StringUtils.isEmpty(key)) {
-            key = null;
+    public BasePage<TmsTestPager> findTestPagerLists(TmsSearchBo tmsSearchBo) {
+        TmsSearchBo tmsSearchBoPre = Optional.ofNullable(tmsSearchBo).orElse(new TmsSearchBo());
+        List<TmsTestPager> tmsTestPagers = tmsTestPaperMapper.selectTmsTestPaper(
+                tmsSearchBoPre.getTmsKinId(),
+                tmsSearchBoPre.getCourseId(),
+                tmsSearchBoPre.getKey(),
+                tmsSearchBoPre.getCelFrom(),
+                tmsSearchBoPre.getLimit());
+        BasePage<TmsTestPager> parse = tmsSearchBoPre.parse();
+        if (tmsSearchBoPre.isPageType()) {
+            Integer countTmsTestPagers = tmsTestPaperMapper.countTmsTestPaper(tmsSearchBoPre.getTmsKinId(),
+                    tmsSearchBoPre.getCourseId(),
+                    tmsSearchBoPre.getKey());
+            return parse.autoInitPageSelfArgsResponse(tmsTestPagers, countTmsTestPagers);
         }
-        List<TmsTestPager> tmsTestPagers = tmsTestPaperMapper.selectTmsTestPaper(tmsKindId, tmsCourseId, key, param.getCelFrom(), param.getLimit());
-        if (param.isPaging()) {
-            Integer countTmsTestPagers = tmsTestPaperMapper.countTmsTestPaper(tmsKindId, tmsCourseId, key);
-            return PageMeData.autoInitPageSelfArgsResponse(tmsTestPagers, countTmsTestPagers, param.getLimit(), param.getPage());
-        }
-        return SimpleMeData.initSimpleResponse(tmsTestPagers);
+        return parse.autoInitPageSelfArgsResponse(tmsTestPagers);
     }
 
     public TmsTestPager createAndUpdate(TmsTestPagerVo tmsTestPagerVo) {
@@ -46,5 +64,16 @@ public class TmsTestPagerService {
         Assert.isNull(tmsTestPager);
         return tmsTestPagerRepository.save(tmsTestPager);
 
+    }
+
+    public void paper(Integer id) {
+        TmsTestPager tmsTestPager = tmsTestPagerRepository.getOne(id);
+        Assert.isNull(tmsTestPager, "TmsTestPager is null");
+        List<TmsTestPaperShip> tmsTestPaperShipList = tmsTestPaperShipRepository.findByTmsTestPaperIdOrderByRank(tmsTestPager.getId());
+        for (TmsTestPaperShip ship : tmsTestPaperShipList) {
+            String tmsTestContent = ship.getTmsTestContent();
+            List<Integer> ids = Arrays.stream(tmsTestContent.split(",")).map(NumberUtils::createInteger).collect(Collectors.toList());
+            List<TmsTest> tmsTests = tmsTestRepository.findAllById(ids);
+        }
     }
 }

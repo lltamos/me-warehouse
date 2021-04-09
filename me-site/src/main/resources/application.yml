@@ -5,12 +5,9 @@ spring:
   #数据源配置
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://182.92.71.18:3306/me_warehouse?useUnicode=true&characterEncoding=utf8&useSSL=true
-#    username: ME_Warehouse
-#    password: hcWFjG8kzZrJ65ny
-    url: jdbc:mysql://127.0.0.1:3306/me_warehouse_back?useUnicode=true&characterEncoding=utf8&useSSL=true
-    username: root
-    password:
+    url: jdbc:mysql://182.92.71.18:3306/me_warehouse?useUnicode=true&characterEncoding=utf8&useSSL=true
+    username: me_warehouse
+    password: P3RXRJapNh5M3zdD
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
       # 初始化时建立物理连接的个数。初始化发生在显示调用 init 方法，或者第一次 getConnection 时

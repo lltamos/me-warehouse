@@ -1,19 +1,17 @@
 package com.me.mesite.module.tms.web;
 
-import com.me.mesite.common.utils.R;
+import com.me.mesite.domain.common.Result;
 import com.me.mesite.domain.vo.TmsTestPagerVo;
-import com.me.mesite.infrastructure.gatawayimpl.database.dataobject.TmsTestPager;
 import com.me.mesite.infrastructure.gatawayimpl.database.repository.TmsTestPagerRepository;
+import com.me.mesite.module.tms.entity.TmsSearchBo;
 import com.me.mesite.module.tms.service.TmsTestPagerService;
-import org.springframework.beans.BeanUtils;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
 
+/**
+ * 试卷
+ */
 @RestController
 @RequestMapping("/tms/paper")
 public class TmsTestPagerController {
@@ -24,12 +22,19 @@ public class TmsTestPagerController {
     private TmsTestPagerRepository tmsTestPagerRepository;
 
     @GetMapping("list")
-    public R list(Integer tmsKinId, Integer courseId, String key) {
-        return R.ok(tmsTestPagerService.findTestPagerLists(tmsKinId, courseId, key));
+    public Result list(TmsSearchBo tmsSearchBo) {
+        return Result.ok(tmsTestPagerService.findTestPagerLists(tmsSearchBo));
     }
 
     @PostMapping("update")
-    public R update(@RequestBody TmsTestPagerVo tmsTestPagerVo) {
-        return R.ok(tmsTestPagerService.createAndUpdate(tmsTestPagerVo));
+    public Result update(@RequestBody TmsTestPagerVo tmsTestPagerVo) {
+        return Result.ok(tmsTestPagerService.createAndUpdate(tmsTestPagerVo));
     }
+
+    @GetMapping("list")
+    public Result paper(Integer id) {
+        return Result.ok(null);
+    }
+
+
 }

@@ -6,9 +6,9 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 
-@Entity(name="upms_c_user")
+@Entity(name="upms_trainee")
 @Data
-public class UpmsCUser implements Serializable {
+public class UpmsTrainee implements Serializable {
 
     private static final long serialVersionUID = 1L;
     /**
@@ -47,12 +47,12 @@ public class UpmsCUser implements Serializable {
     /**
      * 真实姓名
      */
-    private String realname;
+    private String realName;
 
     /**
      * 昵称
      */
-    private String nickname;
+    private String nickName;
 
     /**
      * 头像

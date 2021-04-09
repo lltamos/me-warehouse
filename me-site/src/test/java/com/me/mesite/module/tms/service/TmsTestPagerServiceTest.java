@@ -1,6 +1,5 @@
 package com.me.mesite.module.tms.service;
 
-import com.me.mesite.common.utils.MeData;
 import com.me.mesite.infrastructure.gatawayimpl.database.dataobject.TmsTestPager;
 import com.me.mesite.infrastructure.gatawayimpl.database.repository.TmsTestPagerRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -8,7 +7,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.annotation.Resource;
-import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,9 +20,7 @@ class TmsTestPagerServiceTest {
 
     @Test
     void findTestPagerLists() {
-        MeData<List> testPagerLists = tmsTestPagerService.findTestPagerLists(null, null, "2017年普通专升本《大学语文》必考试题");
-        List data = testPagerLists.getData();
-        System.out.println(data);
+
     }
 
 
