@@ -32,18 +32,7 @@ public class UpmsTrainee implements Serializable {
      */
     private String phone;
 
-    /**
-     * 用户密码
-     */
-    private String password;
-
-    /**
-     * 密码SALT
-     */
-    private String salt;
-
     private String locale;
-
     /**
      * 真实姓名
      */

@@ -1,6 +1,6 @@
 package com.me.mesite.module.tms.service;
 
-import com.me.mesite.common.utils.*;
+import com.me.mesite.common.utils.Tools;
 import com.me.mesite.common.validator.Assert;
 import com.me.mesite.domain.common.BasePage;
 import com.me.mesite.domain.vo.TmsTestPagerVo;
@@ -11,13 +11,15 @@ import com.me.mesite.infrastructure.gatawayimpl.database.mapper.TmsTestPaperMapp
 import com.me.mesite.infrastructure.gatawayimpl.database.repository.TmsTestPagerRepository;
 import com.me.mesite.infrastructure.gatawayimpl.database.repository.TmsTestPaperShipRepository;
 import com.me.mesite.infrastructure.gatawayimpl.database.repository.TmsTestRepository;
+import com.me.mesite.module.tms.entity.PaperViewBo;
 import com.me.mesite.module.tms.entity.TmsSearchBo;
-import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang.math.NumberUtils;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -66,14 +68,21 @@ public class TmsTestPagerService {
 
     }
 
-    public void paper(Integer id) {
+    public PaperViewBo paper(Integer id) {
         TmsTestPager tmsTestPager = tmsTestPagerRepository.getOne(id);
         Assert.isNull(tmsTestPager, "TmsTestPager is null");
+
+        PaperViewBo paperViewBo = new PaperViewBo();
+        //拷贝属性
+        paperViewBo.setPagerInfo(tmsTestPager);
+
         List<TmsTestPaperShip> tmsTestPaperShipList = tmsTestPaperShipRepository.findByTmsTestPaperIdOrderByRank(tmsTestPager.getId());
         for (TmsTestPaperShip ship : tmsTestPaperShipList) {
             String tmsTestContent = ship.getTmsTestContent();
             List<Integer> ids = Arrays.stream(tmsTestContent.split(",")).map(NumberUtils::createInteger).collect(Collectors.toList());
             List<TmsTest> tmsTests = tmsTestRepository.findAllById(ids);
+            paperViewBo.setPagerTestItem(ship, tmsTests);
         }
+        return paperViewBo;
     }
 }

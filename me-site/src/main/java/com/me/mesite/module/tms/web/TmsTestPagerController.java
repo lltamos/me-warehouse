@@ -31,9 +31,9 @@ public class TmsTestPagerController {
         return Result.ok(tmsTestPagerService.createAndUpdate(tmsTestPagerVo));
     }
 
-    @GetMapping("list")
+    @GetMapping("view")
     public Result paper(Integer id) {
-        return Result.ok(null);
+        return Result.ok(tmsTestPagerService.paper(id));
     }
 
 

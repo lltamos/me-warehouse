@@ -1,5 +1,6 @@
 package com.me.mesite.infrastructure.gatawayimpl.database.dataobject;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
 import javax.persistence.*;
@@ -20,6 +21,7 @@ public class TmsTest {
     /**
      * 试题题库id
      */
+    @JsonIgnore
     private Integer tmsTestRepsId;
 
     /**
@@ -85,6 +87,7 @@ public class TmsTest {
     /**
      * 是否审核通过
      */
+
     private Integer locked;
 
     /**
