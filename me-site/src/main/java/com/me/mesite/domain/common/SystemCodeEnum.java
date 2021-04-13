@@ -7,23 +7,25 @@ package com.me.mesite.domain.common;
 
 public enum SystemCodeEnum implements ResultCode {
     //系统响应成功
-    SYSTEM_OK(0, "success"),
-    //未捕获的错误
-    SYSTEM_ERROR(500, "网络错误，请稍候再试"),
+    SYSTEM_OK(200, "success"),
 
     SYSTEM_NOT_LOGIN(302, "请先登录！"),
-    //拒绝访问
-    SYSTEM_BAD_REQUEST(403, "请求频率过快,请稍后再试"),
+    //参数验证错误
+    SYSTEM_NO_VALID(400, "参数验证错误"),
     //无权访问
     SYSTEM_NO_AUTH(401, "无权操作"),
+    //TOKEN过期
+    TOKEN_INVALID(402, "TOKEN过期"),
+    //拒绝访问
+    SYSTEM_BAD_REQUEST(403, "请求频率过快,请稍后再试"),
     //资源未找到
     SYSTEM_NO_FOUND(404, "资源未找到"),
-    //资源未找到
-    SYSTEM_NO_VALID(400, "参数验证错误"),
     //请求方式错误
     SYSTEM_METHOD_ERROR(405, "请求方式错误"),
     //请求超时
     SYSTEM_REQUEST_TIMEOUT(408, "请求超时"),
+    //未捕获的错误
+    SYSTEM_ERROR(500, "网络错误，请稍候再试"),
     //服务调用异常
     SYSTEM_SERVER_ERROR(1001, "服务调用异常"),
     //企业信息已到期

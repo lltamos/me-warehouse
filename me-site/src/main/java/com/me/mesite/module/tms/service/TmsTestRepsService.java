@@ -1,6 +1,7 @@
 package com.me.mesite.module.tms.service;
 
 import com.me.mesite.common.utils.SortUtils;
+import com.me.mesite.domain.common.BasePage;
 import com.me.mesite.domain.vo.TmsTestRepsVo;
 import com.me.mesite.infrastructure.gatawayimpl.database.dataobject.TmsTestReps;
 import com.me.mesite.infrastructure.gatawayimpl.database.repository.TmsTestRepository;
@@ -39,13 +40,12 @@ public class TmsTestRepsService {
         Page<TmsTestReps> tmsTestReps;
         Page<TmsTestRepsVo> tmsTestRepsVos;
 
-
         Pageable pageable = PageRequest.of(page - 1, limit, SortUtils.buildDESC(Constant.UTIME));
 
         if (StringUtils.isEmpty(key)) {
-            tmsTestReps = tmsTestRepsRepository.findAll(pageable);
+            tmsTestReps = tmsTestRepsRepository.findAllByLocked(1, pageable);
         } else {
-            tmsTestReps = tmsTestRepsRepository.findTmsTestRepsByNameStartsWith(key, pageable);
+            tmsTestReps = tmsTestRepsRepository.findAllByLockedAndNameStartsWith(1, key, pageable);
         }
 
         tmsTestRepsVos = tmsTestReps.map(item -> {
@@ -68,7 +68,6 @@ public class TmsTestRepsService {
             tvo.setGroupQuestion(tx5);
             return tvo;
         });
-
         return tmsTestRepsVos;
     }
 

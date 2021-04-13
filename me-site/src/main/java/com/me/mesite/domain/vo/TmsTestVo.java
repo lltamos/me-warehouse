@@ -14,6 +14,7 @@ public class TmsTestVo extends TmsTest implements Vo {
     private String txStr;
 
 
+
     public static TmsTestVo covert(TmsTest tmsTest) {
         TmsTestVo vo = new TmsTestVo();
         BeanUtils.copyProperties(tmsTest, vo);

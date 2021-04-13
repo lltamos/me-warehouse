@@ -30,9 +30,7 @@ public class TmsTestService {
     private TmsTestMapper tmsTestMapper;
 
     public BasePage findTestLists(TmsSearchBo tmsSearchBo) {
-
         TmsSearchBo tmsSearchBoPre = Optional.ofNullable(tmsSearchBo).orElse(new TmsSearchBo());
-
         List<TmsTestVo> tmsTestVos = tmsTestMapper.selectByTmsTestIdAndTxIdTiganLike(tmsSearchBoPre.getTestRepsId(),
                 tmsSearchBoPre.getTxid(),
                 tmsSearchBoPre.getKey(),

@@ -19,12 +19,12 @@ public class TmsTestController {
     private TmsTestService tmsTestService;
 
     @GetMapping("list")
-    public Result list(@RequestBody TmsSearchBo tmsSearchBo) {
+    public Result list(TmsSearchBo tmsSearchBo) {
         return Result.ok(tmsTestService.findTestLists(tmsSearchBo));
     }
 
     @PostMapping("update")
-    public Result update(@RequestBody TmsTestVo tmsTestVo) {
+    public Result update(TmsTestVo tmsTestVo) {
         return Result.ok(tmsTestService.createAndUpdate(tmsTestVo));
     }
 

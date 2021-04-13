@@ -1,5 +1,7 @@
 package com.me.mesite.domain.common;
 
+import lombok.Data;
+
 import java.io.Serializable;
 import java.util.Objects;
 
@@ -8,6 +10,7 @@ import java.util.Objects;
  * 返回数据
  */
 
+@Data
 public class Result<T> implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -39,14 +42,6 @@ public class Result<T> implements Serializable {
     }
 
 
-    public Integer getCode() {
-        return code;
-    }
-
-    public String getMsg() {
-        return msg;
-    }
-
     public static Result noAuth() {
         return error(SystemCodeEnum.SYSTEM_NO_AUTH);
     }
@@ -55,12 +50,12 @@ public class Result<T> implements Serializable {
         return new Result<>(resultCode);
     }
 
-    public static Result error(int code,String msg) {
-        return new Result(code,msg);
+    public static Result error(int code, String msg) {
+        return new Result(code, msg);
     }
 
-    public static Result error(ResultCode resultCode,String msg) {
-        return new Result(resultCode,msg);
+    public static Result error(ResultCode resultCode, String msg) {
+        return new Result(resultCode, msg);
     }
 
     public static <T> Result<T> ok(T data) {

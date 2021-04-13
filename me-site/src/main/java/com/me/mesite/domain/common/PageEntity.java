@@ -44,7 +44,7 @@ public class PageEntity {
 
     public Integer getCelFrom() {
         if (pageType == 1) {
-            Assert.after(getPage(), 0, "page must >0");
+            Assert.before(getPage(), 0, "page must >0");
         }
         return pageType != 1 ? 0 : (getPage() - 1) * limit;
     }

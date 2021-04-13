@@ -7,5 +7,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface TmsTestRepsRepository extends JpaRepository<TmsTestReps, Integer> {
 
-    Page<TmsTestReps> findTmsTestRepsByNameStartsWith(String name, Pageable pageable);
+
+    Page<TmsTestReps> findAllByLocked(Integer locked, Pageable pageable);
+
+    Page<TmsTestReps> findAllByLockedAndNameStartsWith(Integer locked, String name, Pageable pageable);
+
 }

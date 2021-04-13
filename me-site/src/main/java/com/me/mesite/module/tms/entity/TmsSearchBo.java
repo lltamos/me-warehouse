@@ -14,8 +14,10 @@ public class TmsSearchBo extends PageEntity {
     //题型筛选
     private Integer txid;
 
-    private Integer testRepsId;
+    //题库筛选
+    private Integer testRepsId = 9999;
 
+    //关键字
     private String key;
 
 }
