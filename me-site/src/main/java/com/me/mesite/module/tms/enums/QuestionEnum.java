@@ -1,6 +1,6 @@
 package com.me.mesite.module.tms.enums;
 
-public enum QuestionEnum {
+public  enum QuestionEnum {
     SINGLE_CHOICE("选择题", 0),
     MULTIPLE_CHOICE("多选题", 1),
     VERDICT("判断题", 2),//判断
@@ -36,6 +36,13 @@ public enum QuestionEnum {
     public static String getVal(int value) {
         for (QuestionEnum ele : values()) {
             if (ele.getValue() == value) return ele.getName();
+        }
+        return null;
+    }
+
+    public static QuestionEnum parse(Integer txId) {
+        for (QuestionEnum ele : values()) {
+            if (ele.getValue() == txId) return ele;
         }
         return null;
     }

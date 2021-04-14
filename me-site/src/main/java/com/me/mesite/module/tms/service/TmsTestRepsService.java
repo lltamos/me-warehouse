@@ -1,5 +1,6 @@
 package com.me.mesite.module.tms.service;
 
+import cn.hutool.core.lang.Tuple;
 import com.me.mesite.common.utils.SortUtils;
 import com.me.mesite.domain.common.BasePage;
 import com.me.mesite.domain.vo.TmsTestRepsVo;
@@ -17,6 +18,10 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
+import java.math.BigInteger;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -37,37 +42,25 @@ public class TmsTestRepsService {
 
     public Page<TmsTestRepsVo> findTestRepsLists(Integer page, Integer limit, String key) {
 
-        Page<TmsTestReps> tmsTestReps;
-        Page<TmsTestRepsVo> tmsTestRepsVos;
-
+        long l = System.currentTimeMillis();
         Pageable pageable = PageRequest.of(page - 1, limit, SortUtils.buildDESC(Constant.UTIME));
-
         if (StringUtils.isEmpty(key)) {
-            tmsTestReps = tmsTestRepsRepository.findAllByLocked(1, pageable);
-        } else {
-            tmsTestReps = tmsTestRepsRepository.findAllByLockedAndNameStartsWith(1, key, pageable);
+            key = "";
         }
-
-        tmsTestRepsVos = tmsTestReps.map(item -> {
-            log.info("classname：{}", item.getClass().getName());
-            int countAll = tmsTestRepository.countByTmsTestRepsId(item.getId());
-            int tx0 = tmsTestRepository.countByTmsTestRepsIdAndTxId(item.getId(), 0);
-            int tx1 = tmsTestRepository.countByTmsTestRepsIdAndTxId(item.getId(), 1);
-            int tx2 = tmsTestRepository.countByTmsTestRepsIdAndTxId(item.getId(), 2);
-            int tx3 = tmsTestRepository.countByTmsTestRepsIdAndTxId(item.getId(), 3);
-            int tx4 = tmsTestRepository.countByTmsTestRepsIdAndTxId(item.getId(), 4);
-            int tx5 = tmsTestRepository.countByTmsTestRepsIdAndTxId(item.getId(), 5);
+        Page<TmsTestReps> tmsTestReps = tmsTestRepsRepository.findAllByLockedAndNameStartsWith(1, key, pageable);
+        Page<TmsTestRepsVo> tmsTestRepsVos = tmsTestReps.map(item -> {
+            List<Map<Integer, Object>> mapList = tmsTestRepository.countByTmsTestRepsIdAndTxIdAll(item.getId());
             TmsTestRepsVo tvo = new TmsTestRepsVo();
             BeanUtils.copyProperties(item, tvo);
-            tvo.setTotalQuestion(countAll);
-            tvo.setSingleChoice(tx0);
-            tvo.setMultipleChoice(tx1);
-            tvo.setVerdict(tx2);
-            tvo.setInterpose(tx3);
-            tvo.setShortAnswer(tx4);
-            tvo.setGroupQuestion(tx5);
+            mapList.forEach(imap -> {
+                Integer tx = (Integer) imap.get("tx");
+                BigInteger num = (BigInteger) imap.get("num");
+                tvo.parseRepsTestData(tx, num.intValue());
+            });
+            tvo.setTotalQuestion();
             return tvo;
         });
+        System.out.println((System.currentTimeMillis() - l) / 1000);
         return tmsTestRepsVos;
     }
 
