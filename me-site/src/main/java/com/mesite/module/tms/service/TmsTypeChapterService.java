@@ -1,7 +1,7 @@
 package com.mesite.module.tms.service;
 
-import com.mesite.infrastructure.gatewayimpl.database.dataobject.TmsTypeChapter;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.mesite.infrastructure.gatewayimpl.database.dataobject.TmsTypeChapter;
 
 /**
  * <p>

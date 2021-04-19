@@ -1,14 +1,14 @@
 package com.mesite.infrastructure.gatewayimpl.database.dataobject;
 
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import java.util.Date;
+import com.baomidou.mybatisplus.annotation.Version;
+import com.baomidou.mybatisplus.annotation.TableField;
+import java.io.Serializable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
-
-import java.io.Serializable;
-import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
  * </p>
  *
  * @author Erwin Feng
- * @since 2021-04-16
+ * @since 2021-04-19
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -51,10 +51,10 @@ public class FClass extends Model<FClass> {
     private Integer fDelete;
 
     @TableField("f_addtime")
-    private LocalDateTime fAddtime;
+    private Date fAddtime;
 
     @TableField("f_updatetime")
-    private LocalDateTime fUpdatetime;
+    private Date fUpdatetime;
 
 
     @Override

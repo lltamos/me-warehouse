@@ -1,8 +1,8 @@
 package com.mesite.module.tms.service.impl;
 
 import cn.hutool.json.JSONUtil;
+import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.mesite.common.utils.Tools;
 import com.mesite.common.validator.Assert;
 import com.mesite.domain.common.BasePage;
 import com.mesite.infrastructure.gatewayimpl.database.dataobject.TmsTest;
@@ -75,5 +75,10 @@ public class TmsTestPagerServiceImpl extends ServiceImpl<ITmsTestPagerMapper, Tm
             paperViewBo.setPagerTestItem(ship, tmsTests);
         }
         return paperViewBo;
+    }
+
+    @Override
+    public TmsTestPager getOne(Wrapper<TmsTestPager> queryWrapper) {
+        return super.getOne(queryWrapper);
     }
 }

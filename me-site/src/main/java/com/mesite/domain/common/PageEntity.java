@@ -16,12 +16,12 @@ public class PageEntity {
 
     private Integer limit = 15;
 
-    private Integer pageType = 0;
+    private Integer pageType = 1;
 
     public <T> BasePage<T> parse() {
         BasePage<T> page = new BasePage<>(getPage(), getLimit());
         if (Objects.equals(0, pageType)) {
-            page.setSize(10000);
+            page.setSize(500);
         }
         return page;
     }
@@ -29,7 +29,7 @@ public class PageEntity {
     public void setPageType(Integer pageType) {
         this.pageType = pageType;
         if (pageType == 0) {
-            limit = 1000;
+            limit = 500;
         }
     }
 

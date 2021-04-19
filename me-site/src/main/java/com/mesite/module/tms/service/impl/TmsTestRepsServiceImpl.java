@@ -31,7 +31,7 @@ public class TmsTestRepsServiceImpl extends ServiceImpl<ITmsTestRepsMapper, TmsT
 
 
     public BasePage<TmsTestRepsVo> findTestRepsLists(Integer page, Integer limit, String key) {
-        BasePage<TmsTestRepsVo> repsBasePage = getBaseMapper().selectPageByLockedAndName(new BasePage<>(page, limit), 1, key);
+        BasePage<TmsTestRepsVo> repsBasePage = getBaseMapper().findPageByLockedAndName(new BasePage<>(page, limit), 1, key);
         repsBasePage.getList().stream().peek(item -> {
             TmsTestRepsVo tmsTestRepsVo = getBaseMapper().countByTmsTestRepsIdAndTxIdAll(item.getId());
             item.setSingleChoice(tmsTestRepsVo.getSingleChoice());

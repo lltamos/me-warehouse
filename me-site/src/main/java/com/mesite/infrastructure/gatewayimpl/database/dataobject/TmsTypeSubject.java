@@ -1,16 +1,16 @@
 package com.mesite.infrastructure.gatewayimpl.database.dataobject;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
+import java.util.Date;
+import com.baomidou.mybatisplus.annotation.Version;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableField;
+import java.io.Serializable;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
-
-import java.io.Serializable;
-import java.time.LocalDateTime;
 
 /**
  * <p>
@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
  * </p>
  *
  * @author Erwin Feng
- * @since 2021-04-16
+ * @since 2021-04-19
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -77,13 +77,13 @@ public class TmsTypeSubject extends Model<TmsTypeSubject> {
      * 增加时间
      */
     @TableField("ctime")
-    private LocalDateTime ctime;
+    private Date ctime;
 
     /**
      * 更新时间
      */
     @TableField("utime")
-    private LocalDateTime utime;
+    private Date utime;
 
 
     @Override

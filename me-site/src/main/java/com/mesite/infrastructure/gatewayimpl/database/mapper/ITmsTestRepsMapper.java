@@ -17,7 +17,7 @@ import org.apache.ibatis.annotations.Param;
  */
 public interface ITmsTestRepsMapper extends BaseMapper<TmsTestReps> {
 
-    BasePage<TmsTestRepsVo> selectPageByLockedAndName(IPage<TmsTestReps> page, @Param("locked") Integer locked, @Param("key") String key);
+    BasePage<TmsTestRepsVo> findPageByLockedAndName(IPage<TmsTestReps> page, @Param("locked") Integer locked, @Param("key") String key);
 
 
     /**

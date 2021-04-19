@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.mesite.infrastructure.gatewayimpl.database.mapper.ITmsTestRepsMapper">
-	<select id="selectPageByLockedAndName"
+	<select id="findPageByLockedAndName"
 	        resultType="com.mesite.module.tms.entity.TmsTestRepsVo">
 		select * from tms_test_reps
 		<where>
@@ -24,7 +24,7 @@
 		     (SELECT count(id) AS interpose FROM tms_test WHERE tms_test_reps_id = #{id} AND tx_id = 3) AS t3,
 		     (SELECT count(id) AS shortAnswer FROM tms_test WHERE tms_test_reps_id = #{id} AND tx_id = 4) AS t4,
 		     (SELECT count(id) AS groupQuestion FROM tms_test WHERE tms_test_reps_id = #{id} AND tx_id = 5) AS t5,
-		     (SELECT count(id) AS totalQuestion FROM tms_test WHERE tms_test_reps_id = 1) AS t6
+		     (SELECT count(id) AS totalQuestion FROM tms_test WHERE tms_test_reps_id = #{id}) AS t6
 	</select>
 
 

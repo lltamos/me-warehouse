@@ -16,11 +16,6 @@ public class TmsTestRepsVo extends TmsTestReps implements Vo {
     private int interpose;//填空
     private int shortAnswer;
     private int groupQuestion;
-
-    public void setTotalQuestion() {
-        this.totalQuestion = singleChoice + multipleChoice + verdict + interpose + shortAnswer + groupQuestion;
-    }
-
     public void parseRepsTestData(Integer tx, Integer countNum) {
         QuestionEnum QE = QuestionEnum.parse(tx);
         if (QE != null)

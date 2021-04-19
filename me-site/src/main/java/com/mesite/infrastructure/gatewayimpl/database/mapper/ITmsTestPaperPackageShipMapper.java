@@ -1,10 +1,7 @@
 package com.mesite.infrastructure.gatewayimpl.database.mapper;
 
-import com.mesite.infrastructure.gatewayimpl.database.dataobject.TmsTestPaperPackageShip;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import org.apache.ibatis.annotations.Param;
-
-import java.util.List;
+import com.mesite.infrastructure.gatewayimpl.database.dataobject.TmsTestPaperPackageShip;
 
 /**
  * <p>

@@ -35,10 +35,11 @@ public class TmsTestServiceImpl extends ServiceImpl<ITmsTestMapper, TmsTest> imp
     public BasePage<TmsTestVo> findTestLists(TmsSearchBo tmsSearchBo) {
 
         TmsSearchBo tmsSearchBoPre = Optional.ofNullable(tmsSearchBo).orElse(new TmsSearchBo());
-        BasePage<TmsTestVo> tmsTestVoBasePage = getBaseMapper().findByTmsTestRepsIdAndTxIdTiganLike(tmsSearchBoPre.getTestRepsId(),
+        BasePage<TmsTestVo> tmsTestVoBasePage = getBaseMapper().findByTmsTestRepsIdAndTxIdTiGanLike(tmsSearchBoPre.getTestRepsId(),
                 tmsSearchBoPre.getTxid(),
                 tmsSearchBoPre.getKey(),
                 tmsSearchBoPre.parse());
+        TmsTestVo tmsTestVo = tmsTestVoBasePage.getList().get(0);
         return tmsTestVoBasePage.copy(item -> {
             item.setTxStr(QuestionEnum.getVal(item.getTxId()));
             return item;

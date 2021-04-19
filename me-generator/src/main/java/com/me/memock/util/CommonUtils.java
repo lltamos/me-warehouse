@@ -51,7 +51,7 @@ public class CommonUtils {
                 .setOutputDir(Config.OUTPUT_DIR)
                 .setFileOverride(true) // 是否覆盖已有文件
                 //.setOpen(true) // 是否打开输出目录
-                .setDateType(DateType.TIME_PACK) // 时间采用java 8，（操作工具类：JavaLib => DateTimeUtils）
+                .setDateType(DateType.ONLY_DATE) // 时间采用java 8，（操作工具类：JavaLib => DateTimeUtils）
                 .setActiveRecord(true)// 不需要ActiveRecord特性的请改为false
                 .setEnableCache(false)// XML 二级缓存
                 .setBaseResultMap(false)// XML ResultMap

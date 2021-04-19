@@ -1,7 +1,7 @@
 package com.mesite.infrastructure.gatewayimpl.database.mapper;
 
-import com.mesite.infrastructure.gatewayimpl.database.dataobject.TmsTypeSchool;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.mesite.infrastructure.gatewayimpl.database.dataobject.TmsTypeSchool;
 
 /**
  * <p>

@@ -2,13 +2,9 @@ package com.mesite.infrastructure.gatewayimpl.database.mapper;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.mesite.domain.common.BasePage;
-import com.mesite.infrastructure.gatewayimpl.database.dataobject.TmsTest;
-import com.mesite.infrastructure.gatewayimpl.database.dataobject.TmsTestPager;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
-import com.mesite.module.tms.entity.TmsTestVo;
+import com.mesite.infrastructure.gatewayimpl.database.dataobject.TmsTestPager;
 import org.apache.ibatis.annotations.Param;
-
-import java.util.List;
 
 /**
  * <p>
