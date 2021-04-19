@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.mesite.infrastructure.gatewayimpl.database.mapper.ITmsTestPagerMapper">
+	<select id="selectTmsTestPaper" resultType="com.mesite.infrastructure.gatewayimpl.database.dataobject.TmsTestPager">
+		select * from tms_test_pager
+		<where>
+			<if test="tmsKindTypeId!=null">
+				tms_kind_id=#{tmsKindTypeId}
+			</if>
+			<if test="tmsCourseTypeId!=null">
+				and tms_course_id=#{tmsCourseTypeId}
+			</if>
+			<if test="title!=null and title!=''">
+				and title like concat('%',#{title},'%')
+			</if>
+		</where>
+	</select>
+
+</mapper>

@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.me.mesite.infrastructure.gatawayimpl.database.mapper.TmsTestPackageMapper">
-
-	<select id="selectTmsTestPackage" resultType="com.me.mesite.infrastructure.gatawayimpl.database.dataobject.TmsTestPackage">
+<mapper namespace="com.mesite.infrastructure.gatewayimpl.database.mapper.ITmsTestPackageMapper">
+	<select id="selectTmsTestPackage" resultType="com.mesite.infrastructure.gatewayimpl.database.dataobject.TmsTestPackage">
 		select * from tms_test_package
 		<where>
 			<if test="tmsKindTypeId!=null">
@@ -15,25 +14,7 @@
 				and title like concat('%',#{title},'%')
 			</if>
 		</where>
-
-		<if test="from!=null and limit!=null">
-			limit #{from} ,#{limit}
-		</if>
-	</select>
-
-	<select id="countTmsTestPackage" resultType="java.lang.Integer">
-		select count(id) from tms_test_pager
-		<where>
-			<if test="tmsKindId!=null">
-				tms_kind_type_id=#{tmsKindTypeId}
-			</if>
-			<if test="tmsCourseId!=null">
-				and tms_course_type_id=#{tmsCourseTypeId}
-			</if>
-			<if test="title!=null and title!=''">
-				and title like concat('%',#{title},'%')
-			</if>
-		</where>
+		order by utime
 	</select>
 
 </mapper>
