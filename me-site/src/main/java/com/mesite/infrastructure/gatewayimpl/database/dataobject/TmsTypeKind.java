@@ -8,6 +8,8 @@ import com.baomidou.mybatisplus.annotation.Version;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.experimental.Accessors;
@@ -44,18 +46,21 @@ public class TmsTypeKind extends Model<TmsTypeKind> {
      * 父级id
      */
     @TableField("pid")
+    @JsonIgnore
     private Integer pid;
 
     /**
      * 排序
      */
-    @TableField("rank")
-    private Integer rank;
+    @TableField("ranked")
+    @JsonIgnore
+    private Integer ranked;
 
     /**
      * 1 正常  0删除
      */
     @TableField("locked")
+    @JsonIgnore
     private Integer locked;
 
     /**

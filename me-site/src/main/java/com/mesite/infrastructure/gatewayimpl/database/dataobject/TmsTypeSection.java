@@ -46,8 +46,8 @@ public class TmsTypeSection extends Model<TmsTypeSection> {
     /**
      * 排序
      */
-    @TableField("rank")
-    private Integer rank;
+    @TableField("ranked")
+    private Integer ranked;
 
     @TableField("locked")
     private Integer locked;

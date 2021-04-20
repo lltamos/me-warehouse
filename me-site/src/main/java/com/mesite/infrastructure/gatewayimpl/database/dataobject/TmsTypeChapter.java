@@ -49,8 +49,8 @@ public class TmsTypeChapter extends Model<TmsTypeChapter> {
     /**
      * 排序
      */
-    @TableField("rank")
-    private Integer rank;
+    @TableField("ranked")
+    private Integer ranked;
 
     /**
      * 1正常 0未审核
