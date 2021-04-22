@@ -1,5 +1,10 @@
 package com.mesite.module.tms.service;
 
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.lang.tree.Tree;
+import cn.hutool.core.lang.tree.TreeNode;
+import cn.hutool.core.lang.tree.TreeNodeConfig;
+import cn.hutool.core.lang.tree.TreeUtil;
 import cn.hutool.json.JSONUtil;
 import com.google.common.collect.Maps;
 import com.mesite.common.utils.Tools;
@@ -9,12 +14,15 @@ import com.mesite.module.tms.event.RefreshMsgEvent;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.ibatis.javassist.runtime.Inner;
 import org.springframework.beans.BeanUtils;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,7 +36,7 @@ public class TmsFileConstantCacheService {
     private final String tmsKindTypeCacheName = "tmsKindTypeCache";
     private final String tmsSubjectTypeCacheName = "tmsSubjectTypeCache";
 
-    private Map<String, Map<Integer, StemTree>> cache = Maps.newHashMap();
+    private Map<String, Map<Integer, Tree<Integer>>> cache = Maps.newHashMap();
 
     @Resource
     private TmsTypeKindService tmsTypeKindRepository;
@@ -37,15 +45,15 @@ public class TmsFileConstantCacheService {
     @Resource
     private TmsTypeSubjectService tmsTypeSubjectRepository;
 
-    public Map<String, Map<Integer, StemTree>> getStemTreeCache() {
+    public Map<Integer, Tree<Integer>> getKindTypeTreeCache() {
         if (cache.isEmpty()) {
             this.init();
         }
-        return cache;
+        return cache.get(tmsKindTypeCacheName);
     }
 
 
-    public StemTree getKD(Integer kinId) {
+    public Tree<Integer> getKD(Integer kinId) {
 
         Assert.isNull(kinId, "kindId is Null");
 
@@ -53,7 +61,7 @@ public class TmsFileConstantCacheService {
             log.warn("********************************tmsKindTypeCache is null application execute plan init ");
             this.init();
         }
-        Map<Integer, StemTree> tmsKindTypeCacheMap = cache.get(tmsKindTypeCacheName);
+        Map<Integer, Tree<Integer>> tmsKindTypeCacheMap = cache.get(tmsKindTypeCacheName);
         return tmsKindTypeCacheMap.get(kinId);
     }
 
@@ -61,26 +69,26 @@ public class TmsFileConstantCacheService {
     private void init() {
         cache.clear();
         //缓存项目分类信息
-        Map<Integer, StemTree> tmsKindTypeCacheMap = new HashMap<>();
-
         List<TmsTypeKind> tmsKindTypes = tmsTypeKindRepository.list();
-        List<TmsTypeKind> tmsRootTypeKinds = tmsKindTypes.stream()
-                .filter(item -> item.getPid() == 0)
-                .collect(Collectors.toList());
-
-        tmsRootTypeKinds.forEach(i -> {
-            StemTree stemTree = new StemTree(i);
-            List<StemTree> typeItemKindList = tmsKindTypes.stream()
-                    .filter(i1 -> i1.getPid().equals(stemTree.getId()))
-                    .map(StemTree::new)
-                    .collect(Collectors.toList());
-            stemTree.setItemRecords(typeItemKindList);
-
-            tmsKindTypeCacheMap.put(i.getId(), stemTree);
-        });
+        //配置
+        TreeNodeConfig treeNodeConfig = new TreeNodeConfig();
+        // 自定义属性名 都要默认值的
+        treeNodeConfig.setWeightKey("order");
+        treeNodeConfig.setIdKey("tid");
+        // 最大递归深度
+        treeNodeConfig.setDeep(3);
+        //转换器
+        List<Tree<Integer>> treeNodes = TreeUtil.build(tmsKindTypes, 0, treeNodeConfig,
+                (node, tree) -> {
+                    tree.setId(node.getId());
+                    tree.setParentId(node.getPid());
+                    tree.setWeight(node.getRanked());
+                    tree.setName(node.getName());
+                });
+        //转换成MAP
+        Map<Integer, Tree<Integer>> tmsKindTypeCacheMap = treeNodes.stream().collect(Collectors.toMap(Tree::getId, X1 -> X1));
         cache.put(tmsKindTypeCacheName, tmsKindTypeCacheMap);
         log.info("system db ContactCache write TmsKindType:{} success", tmsKindTypeCacheMap);
-        //缓存项目信息
     }
 
 
@@ -90,19 +98,6 @@ public class TmsFileConstantCacheService {
         if (event.getRefreshType() == RefreshMsgEvent.RefreshType.Constant) {
             this.init();
         }
+
     }
-
-
-    @EqualsAndHashCode(callSuper = true)
-    @Data
-    class StemTree extends TmsTypeKind {
-
-        private List<StemTree> itemRecords;
-
-        StemTree(TmsTypeKind tmsTypeKind) {
-            BeanUtils.copyProperties(tmsTypeKind, this);
-        }
-    }
-
-
 }

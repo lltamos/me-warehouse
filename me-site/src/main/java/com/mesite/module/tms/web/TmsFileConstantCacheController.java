@@ -1,7 +1,6 @@
 package com.mesite.module.tms.web;
 
 import com.mesite.domain.common.Result;
-import com.mesite.module.tms.entity.TmsSearchBo;
 import com.mesite.module.tms.service.TmsFileConstantCacheService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
