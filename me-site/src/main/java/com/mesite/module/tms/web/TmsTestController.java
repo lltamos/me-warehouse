@@ -4,10 +4,7 @@ import com.mesite.domain.common.Result;
 import com.mesite.module.tms.entity.TmsSearchBo;
 import com.mesite.module.tms.entity.TmsTestVo;
 import com.mesite.module.tms.service.TmsTestService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -24,6 +21,11 @@ public class TmsTestController {
     @GetMapping("list")
     public Result list(TmsSearchBo tmsSearchBo) {
         return Result.ok(tmsTestService.findTestLists(tmsSearchBo));
+    }
+
+    @GetMapping("detail")
+    public Result detail(@RequestParam Integer id) {
+        return Result.ok(tmsTestService.detail(id));
     }
 
     @PostMapping("update")

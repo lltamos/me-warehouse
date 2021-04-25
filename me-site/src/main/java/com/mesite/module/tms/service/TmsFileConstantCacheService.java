@@ -1,29 +1,22 @@
 package com.mesite.module.tms.service;
 
-import cn.hutool.core.collection.CollUtil;
 import cn.hutool.core.lang.tree.Tree;
-import cn.hutool.core.lang.tree.TreeNode;
 import cn.hutool.core.lang.tree.TreeNodeConfig;
 import cn.hutool.core.lang.tree.TreeUtil;
-import cn.hutool.json.JSONUtil;
+import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Maps;
 import com.mesite.common.utils.Tools;
 import com.mesite.common.validator.Assert;
+import com.mesite.infrastructure.gatewayimpl.database.dataobject.TmsTypeCourse;
 import com.mesite.infrastructure.gatewayimpl.database.dataobject.TmsTypeKind;
 import com.mesite.module.tms.event.RefreshMsgEvent;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.javassist.runtime.Inner;
-import org.springframework.beans.BeanUtils;
 import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -32,11 +25,9 @@ import java.util.stream.Collectors;
 @Slf4j
 public class TmsFileConstantCacheService {
 
-    //获取项目下的学院名称
-    private final String tmsKindTypeCacheName = "tmsKindTypeCache";
-    private final String tmsSubjectTypeCacheName = "tmsSubjectTypeCache";
-
-    private Map<String, Map<Integer, Tree<Integer>>> cache = Maps.newHashMap();
+    private Map<Integer, Tree<Integer>> tmsKindTypeCache = Maps.newHashMap();
+    private Map<String, Map<Integer, Tree<Integer>>> tmsSubjectTypeCache = Maps.newHashMap();
+    private Map<Integer, Collection<TmsTypeCourse>> tmsCourseTypeCache = Maps.newHashMap();
 
     @Resource
     private TmsTypeKindService tmsTypeKindRepository;
@@ -45,29 +36,42 @@ public class TmsFileConstantCacheService {
     @Resource
     private TmsTypeSubjectService tmsTypeSubjectRepository;
 
-    public Map<Integer, Tree<Integer>> getKindTypeTreeCache() {
-        if (cache.isEmpty()) {
-            this.init();
-        }
-        return cache.get(tmsKindTypeCacheName);
+    public Collection<Tree<Integer>> getKindTypeTreeList() {
+        this.checkInit();
+        return tmsKindTypeCache.values();
     }
 
+    public Collection<TmsTypeCourse> getCourseTypeTreeList(Integer tmsKindId) {
+        this.checkInit();
+        return tmsCourseTypeCache.get(tmsKindId);
+    }
+
+    public Map<Integer, Tree<Integer>> getKindTypeTreeMap() {
+        this.checkInit();
+        return tmsKindTypeCache;
+    }
 
     public Tree<Integer> getKD(Integer kinId) {
 
         Assert.isNull(kinId, "kindId is Null");
 
-        if (Tools.isEmpty(cache)) {
+        if (Tools.isEmpty(tmsKindTypeCache)) {
             log.warn("********************************tmsKindTypeCache is null application execute plan init ");
             this.init();
         }
-        Map<Integer, Tree<Integer>> tmsKindTypeCacheMap = cache.get(tmsKindTypeCacheName);
-        return tmsKindTypeCacheMap.get(kinId);
+        return tmsKindTypeCache.get(kinId);
+    }
+
+    private void checkInit() {
+        if (tmsKindTypeCache.isEmpty() || tmsCourseTypeCache.isEmpty()) {
+            this.init();
+        }
     }
 
     @PostConstruct
     private void init() {
-        cache.clear();
+        tmsKindTypeCache.clear();
+        tmsCourseTypeCache.clear();
         //缓存项目分类信息
         List<TmsTypeKind> tmsKindTypes = tmsTypeKindRepository.list();
         //配置
@@ -87,11 +91,23 @@ public class TmsFileConstantCacheService {
                 });
         //转换成MAP
         Map<Integer, Tree<Integer>> tmsKindTypeCacheMap = treeNodes.stream().collect(Collectors.toMap(Tree::getId, X1 -> X1));
-        cache.put(tmsKindTypeCacheName, tmsKindTypeCacheMap);
-        log.info("system db ContactCache write TmsKindType:{} success", tmsKindTypeCacheMap);
+        tmsKindTypeCache.putAll(tmsKindTypeCacheMap);
+
+
+        //缓存课程分类信息
+        List<TmsTypeCourse> tmsTypeCourses = tmsTypeCourseRepository.list();
+
+        HashMultimap<Integer, TmsTypeCourse> tmsCourseTypeCacheMap = HashMultimap.create();
+        tmsTypeCourses.forEach(item -> {
+            Integer tmsKindTypeId = item.getTmsKindTypeId();
+            tmsCourseTypeCacheMap.put(tmsKindTypeId, item);
+        });
+        tmsCourseTypeCache.putAll(tmsCourseTypeCacheMap.asMap());
+
+        log.info("system db ContactCache write TmsKindType:{} success，TmsCourseType:{}", tmsKindTypeCache, tmsCourseTypeCache);
     }
 
-
+    //todo 需要在项目或者课程更新操作之后发送事件
     @EventListener(classes = RefreshMsgEvent.class)
     public void handleRefreshMsgEvent(RefreshMsgEvent event) {
         log.info("RefreshMsgEvent execute refresh ,type:{},args:{}", event.getRefreshType().toString(), event.getSource());

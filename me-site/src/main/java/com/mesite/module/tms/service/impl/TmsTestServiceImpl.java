@@ -47,12 +47,15 @@ public class TmsTestServiceImpl extends ServiceImpl<ITmsTestMapper, TmsTest> imp
 
     }
 
+    @Override
+    public TmsTestVo detail(Integer id) {
+        return TmsTestVo.covert(this.getById(id));
+    }
+
     @Transactional
     public boolean delete(Integer id) {
         return removeById(id);
     }
-
-
 
 
 }

@@ -18,4 +18,6 @@ public interface TmsTestService extends IService<TmsTest> {
     boolean createAndUpdate(TmsTestVo tmsTestVo);
 
     BasePage<TmsTestVo> findTestLists(TmsSearchBo tmsSearchBo);
+
+    TmsTestVo detail(Integer id);
 }
