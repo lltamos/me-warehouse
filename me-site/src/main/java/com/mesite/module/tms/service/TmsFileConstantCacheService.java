@@ -7,6 +7,7 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Maps;
 import com.mesite.common.utils.Tools;
 import com.mesite.common.validator.Assert;
+import com.mesite.infrastructure.gatewayimpl.database.dataobject.TmsTypeChapter;
 import com.mesite.infrastructure.gatewayimpl.database.dataobject.TmsTypeCourse;
 import com.mesite.infrastructure.gatewayimpl.database.dataobject.TmsTypeKind;
 import com.mesite.module.tms.event.RefreshMsgEvent;
@@ -26,24 +27,30 @@ import java.util.stream.Collectors;
 public class TmsFileConstantCacheService {
 
     private Map<Integer, Tree<Integer>> tmsKindTypeCache = Maps.newHashMap();
-    private Map<String, Map<Integer, Tree<Integer>>> tmsSubjectTypeCache = Maps.newHashMap();
     private Map<Integer, Collection<TmsTypeCourse>> tmsCourseTypeCache = Maps.newHashMap();
+    private Map<Integer, Collection<TmsTypeChapter>> tmsChapterTypeCache = Maps.newHashMap();
 
     @Resource
     private TmsTypeKindService tmsTypeKindRepository;
     @Resource
     private TmsTypeCourseService tmsTypeCourseRepository;
     @Resource
-    private TmsTypeSubjectService tmsTypeSubjectRepository;
+    private TmsTypeChapterService tmsTypeChapterService;
 
-    public Collection<Tree<Integer>> getKindTypeTreeList() {
+
+    public Collection<Tree<Integer>> getKindTypeList() {
         this.checkInit();
         return tmsKindTypeCache.values();
     }
 
-    public Collection<TmsTypeCourse> getCourseTypeTreeList(Integer tmsKindId) {
+    public Collection<TmsTypeCourse> getCourseTypeList(Integer tmsKindId) {
         this.checkInit();
         return tmsCourseTypeCache.get(tmsKindId);
+    }
+
+    public Collection<TmsTypeChapter> getChapterTypeList(Integer tmsCourseId) {
+        this.checkInit();
+        return tmsChapterTypeCache.get(tmsCourseId);
     }
 
     public Map<Integer, Tree<Integer>> getKindTypeTreeMap() {
@@ -72,6 +79,7 @@ public class TmsFileConstantCacheService {
     private void init() {
         tmsKindTypeCache.clear();
         tmsCourseTypeCache.clear();
+        tmsChapterTypeCache.clear();
         //缓存项目分类信息
         List<TmsTypeKind> tmsKindTypes = tmsTypeKindRepository.list();
         //配置
@@ -104,6 +112,14 @@ public class TmsFileConstantCacheService {
         });
         tmsCourseTypeCache.putAll(tmsCourseTypeCacheMap.asMap());
 
+        //缓存课程下的章节
+        List<TmsTypeChapter> tmsTypeChapters = tmsTypeChapterService.list();
+        HashMultimap<Integer, TmsTypeChapter> typeChapterHashMultiMap = HashMultimap.create();
+        tmsTypeChapters.forEach(item -> {
+            Integer tmsCourseTypeId = item.getTmsCourseTypeId();
+            typeChapterHashMultiMap.put(tmsCourseTypeId, item);
+        });
+        tmsChapterTypeCache.putAll(typeChapterHashMultiMap.asMap());
         log.info("system db ContactCache write TmsKindType:{} success，TmsCourseType:{}", tmsKindTypeCache, tmsCourseTypeCache);
     }
 

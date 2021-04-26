@@ -17,11 +17,16 @@ public class TmsFileConstantCacheController {
 
     @GetMapping("listKindTypeTree")
     public Result listKindTypeTree() {
-        return Result.ok(tmsFileConstantCacheService.getKindTypeTreeList());
+        return Result.ok(tmsFileConstantCacheService.getKindTypeList());
     }
 
     @GetMapping("listCourseTypes")
-    public Result listCourseTypes(@RequestParam Integer tmsCourseId) {
-        return Result.ok(tmsFileConstantCacheService.getCourseTypeTreeList(tmsCourseId));
+    public Result listCourseTypes(@RequestParam Integer tmsKindId) {
+        return Result.ok(tmsFileConstantCacheService.getCourseTypeList(tmsKindId));
+    }
+
+    @GetMapping("listChapterTypes")
+    public Result listChapterTypes(@RequestParam Integer tmsCourseId) {
+        return Result.ok(tmsFileConstantCacheService.getChapterTypeList(tmsCourseId));
     }
 }
