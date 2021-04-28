@@ -19,5 +19,5 @@ public interface TmsTestService extends IService<TmsTest> {
 
     BasePage<TmsTestVo> findTestLists(TmsSearchBo tmsSearchBo);
 
-    TmsTestVo detail(Integer id);
+    TmsTestVo detail(Integer tmsTestId);
 }

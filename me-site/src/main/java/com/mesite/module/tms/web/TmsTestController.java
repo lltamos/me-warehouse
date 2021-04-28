@@ -24,8 +24,8 @@ public class TmsTestController {
     }
 
     @GetMapping("detail")
-    public Result detail(@RequestParam Integer id) {
-        return Result.ok(tmsTestService.detail(id));
+    public Result detail(@RequestParam Integer tmsTestId) {
+        return Result.ok(tmsTestService.detail(tmsTestId));
     }
 
     @PostMapping("update")

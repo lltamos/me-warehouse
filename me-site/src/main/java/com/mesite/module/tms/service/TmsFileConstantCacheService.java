@@ -3,6 +3,10 @@ package com.mesite.module.tms.service;
 import cn.hutool.core.lang.tree.Tree;
 import cn.hutool.core.lang.tree.TreeNodeConfig;
 import cn.hutool.core.lang.tree.TreeUtil;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Maps;
 import com.mesite.common.utils.Tools;
@@ -26,9 +30,9 @@ import java.util.stream.Collectors;
 @Slf4j
 public class TmsFileConstantCacheService {
 
-    private Map<Integer, Tree<Integer>> tmsKindTypeCache = Maps.newHashMap();
-    private Map<Integer, Collection<TmsTypeCourse>> tmsCourseTypeCache = Maps.newHashMap();
-    private Map<Integer, Collection<TmsTypeChapter>> tmsChapterTypeCache = Maps.newHashMap();
+    private Map<Integer, Tree<Integer>> tmsKindTypeCache = Maps.newTreeMap();
+    private Map<Integer, Collection<TmsTypeCourse>> tmsCourseTypeCache = Maps.newTreeMap();
+    private Map<Integer, Collection<TmsTypeChapter>> tmsChapterTypeCache = Maps.newTreeMap();
 
     @Resource
     private TmsTypeKindService tmsTypeKindRepository;
@@ -105,21 +109,21 @@ public class TmsFileConstantCacheService {
         //缓存课程分类信息
         List<TmsTypeCourse> tmsTypeCourses = tmsTypeCourseRepository.list();
 
-        HashMultimap<Integer, TmsTypeCourse> tmsCourseTypeCacheMap = HashMultimap.create();
+        ArrayListMultimap<Integer, TmsTypeCourse> tmsCourseTypeMultiMap = ArrayListMultimap.create();
         tmsTypeCourses.forEach(item -> {
             Integer tmsKindTypeId = item.getTmsKindTypeId();
-            tmsCourseTypeCacheMap.put(tmsKindTypeId, item);
+            tmsCourseTypeMultiMap.put(tmsKindTypeId, item);
         });
-        tmsCourseTypeCache.putAll(tmsCourseTypeCacheMap.asMap());
+        tmsCourseTypeCache.putAll(tmsCourseTypeMultiMap.asMap());
 
         //缓存课程下的章节
         List<TmsTypeChapter> tmsTypeChapters = tmsTypeChapterService.list();
-        HashMultimap<Integer, TmsTypeChapter> typeChapterHashMultiMap = HashMultimap.create();
+        ArrayListMultimap<Integer, TmsTypeChapter> typeChapterMultiMap = ArrayListMultimap.create();
         tmsTypeChapters.forEach(item -> {
             Integer tmsCourseTypeId = item.getTmsCourseTypeId();
-            typeChapterHashMultiMap.put(tmsCourseTypeId, item);
+            typeChapterMultiMap.put(tmsCourseTypeId, item);
         });
-        tmsChapterTypeCache.putAll(typeChapterHashMultiMap.asMap());
+        tmsChapterTypeCache.putAll(typeChapterMultiMap.asMap());
         log.info("system db ContactCache write TmsKindType:{} success，TmsCourseType:{}", tmsKindTypeCache, tmsCourseTypeCache);
     }
 
